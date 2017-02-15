@@ -19,7 +19,7 @@ describe Board do
 		it "gives access to grid position x, y" do
 			piece = double
 			subject.grid[0][3] = piece
-			expect( subject.pos(1, 4) ).to be piece
+			expect( subject.at(1, 4) ).to be piece
 		end
 	end
 end
