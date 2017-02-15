@@ -9,7 +9,8 @@ class Piece
 	end
 
 	def move(x, y)
-		board.set(self, x, y)
 		board.set(nil, *position)
+		self.position = [x, y]
+		board.set(self, x, y)		
 	end
 end
