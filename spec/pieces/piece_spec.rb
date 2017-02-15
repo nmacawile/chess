@@ -17,19 +17,42 @@ describe Piece do
 		end
 	end
 
-	describe "#move(a, b)" do	
-		before do
-			subject.move(1, 3)
+	describe "#move(a, b)" do
+		context "when move is legal" do
+			before do
+				subject.move(1, 3)
+			end
+
+			it "moves to the specified position" do
+				expect( subject.board.get(1, 3) ).to be subject
+				expect( subject.board.get(1, 1) ).to be nil
+			end
+
+			it "updates its position tracker" do
+				expect( subject.position ).to eq([1, 3])
+			end
+
+			it "returns true" do
+				expect( subject.move(1, 3) ).to be true
+			end
 		end
 
-		it "moves to the specified position" do
-			expect( subject.board.get(1, 3) ).to be subject
-			expect( subject.board.get(1, 1) ).to be nil
-		end
+		context "when move is illegal" do
+			before do
+				subject.move(10, 3)
+			end
 
-		it "updates the piece's position tracker" do
-			#subject.move(1, 3)
-			expect( subject.position ).to eq([1, 3])
+			it "stays in its current position" do
+				expect( subject.board.get(1, 1) ).to be subject
+			end
+
+			it "doesn't update its position tracker" do
+				expect( subject.position ).to eq([1, 1])
+			end
+
+			it "returns false" do
+				expect( subject.move(10, 3) ).to be false
+			end
 		end
 	end
 end
