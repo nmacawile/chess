@@ -16,4 +16,12 @@ describe Piece do
 			expect( subject.board.get(1, 1) ).to be subject
 		end
 	end
+
+	describe "#move(a, b)" do		
+		it "moves to the specified position" do
+			subject.move(1, 3)
+			expect( subject.board.get(1, 3) ).to be subject
+			expect( subject.board.get(1, 1) ).to be nil
+		end
+	end
 end
