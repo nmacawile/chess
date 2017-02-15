@@ -15,11 +15,19 @@ describe Board do
 		end
 	end
 
-	describe "#at(x, y)" do
-		it "gives access to grid position x, y" do
+	describe "#get(x, y)" do
+		it "returns the piece at grid position x, y" do
 			piece = double
 			subject.grid[0][3] = piece
-			expect( subject.at(1, 4) ).to be piece
+			expect( subject.get(1, 4) ).to be piece
+		end
+	end
+
+	describe "#set(piece, x, y)" do
+		it "sets the piece at grid position x, y" do
+			piece = double
+			subject.set(piece, 2, 3)
+			expect( subject.get(2, 3) ).to be piece
 		end
 	end
 end

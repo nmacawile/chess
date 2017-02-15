@@ -13,7 +13,7 @@ describe Piece do
 		end
 
 		it "places it in the specified position" do
-			expect( subject.board.at(1, 1) ).to be subject
+			expect( subject.board.get(1, 1) ).to be subject
 		end
 	end
 end
