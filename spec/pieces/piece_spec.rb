@@ -31,6 +31,13 @@ describe Piece do
 				expect( subject.friendly?(3, 3) ).to be false
 			end
 		end
+
+		context "when a, b is an empty cell" do
+			it "returns false" do
+				expect( subject.friendly?(4, 4) ).to be false
+			end
+		end
+
 	end
 
 	describe "#move(a, b)" do

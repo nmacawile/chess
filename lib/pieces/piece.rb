@@ -18,6 +18,7 @@ class Piece
 	end
 
 	def friendly?(x, y)
+		return false if board.get(x, y).nil?
 		board.get(x, y).faction == faction
 	end
 end
