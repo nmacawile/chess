@@ -1,22 +1,7 @@
 require "pieces/piece"
 
 class Rook < Piece
-
-	attr_writer :legal_moves
-
-    def legal_moves
-    	@legal_moves ||= []
-    end
-
-	def move(x, y)
-		find_legal_moves
-		return false unless legal_moves.include? [x, y]
-		board.set(nil, *position)
-		self.position = [x, y]
-		board.set(self, x, y)
-		true
-	end
-
+	
 	def find_legal_moves
 		self.legal_moves = []
 		find_up
@@ -31,7 +16,7 @@ class Rook < Piece
 			break if friendly?(a, b_)
 			legal_moves << [a, b_]
 			break if enemy?(a, b_)
-		}
+		}		
 	end
 
 	def find_down
