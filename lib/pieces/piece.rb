@@ -1,11 +1,12 @@
 require "board"
 
 class Piece
-	attr_accessor :board, :position
-	def initialize(board, x, y)
+	attr_accessor :board, :position, :faction
+	def initialize(board, faction, x, y)
 		@board = board
 		@position = [x, y]
 		board.set(self, x, y)
+		@faction = faction
 	end
 
 	def move(x, y)
@@ -14,5 +15,9 @@ class Piece
 		self.position = [x, y]
 		board.set(self, x, y)
 		true	
+	end
+
+	def friendly?(x, y)
+		board.get(x, y).faction == faction
 	end
 end

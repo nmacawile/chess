@@ -5,7 +5,7 @@ describe Piece do
 		@board = Board.new
 	end
 
-	subject { Piece.new(@board, 1, 1) }
+	subject { Piece.new(@board, :white, 1, 1) }
 
 	describe "#new" do
 		it "creates a new piece" do
@@ -14,6 +14,22 @@ describe Piece do
 
 		it "places it in the specified position" do
 			expect( subject.board.get(1, 1) ).to be subject
+		end
+	end
+
+	describe "#friendly?(a, b)" do
+		context "when piece at a, b is a friendly" do
+			it "returns true" do
+				Piece.new(@board, :white, 2, 2)
+				expect( subject.friendly?(2, 2) ).to be true
+			end
+		end
+
+		context "when piece at a, b is an enemy" do
+			it "returns false" do
+				Piece.new(@board, :black, 3, 3)
+				expect( subject.friendly?(3, 3) ).to be false
+			end
 		end
 	end
 
