@@ -40,6 +40,29 @@ describe Piece do
 
 	end
 
+	describe "#enemy?(a, b)" do
+		context "when piece at a, b is an enemy" do
+			it "returns true" do
+				Piece.new(@board, :black, 2, 2)
+				expect( subject.enemy?(2, 2) ).to be true
+			end
+		end
+
+		context "when piece at a, b is an enemy" do
+			it "returns false" do
+				Piece.new(@board, :white, 3, 3)
+				expect( subject.enemy?(3, 3) ).to be false
+			end
+		end
+
+		context "when a, b is an empty cell" do
+			it "returns false" do
+				expect( subject.enemy?(4, 4) ).to be false
+			end
+		end
+
+	end
+
 	describe "#move(a, b)" do
 		context "when move is legal" do
 			before do
