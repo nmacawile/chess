@@ -74,6 +74,27 @@ describe Rook do
 					expect( subject.move(8, 5) ).to be true
 				end
 			end
+
+			context "destination cell occupied by enemy" do
+				before do
+					Piece.new(subject.board, :black, 4, 8)
+				end
+
+				it "moves to the specified position" do
+					subject.move(4, 8)
+					expect( subject.board.get(4, 8) ).to be subject
+					expect( subject.board.get(4, 5) ).to be nil
+				end
+
+				it "updates its position tracker" do
+					subject.move(4, 8)
+					expect( subject.position ).to eq([4, 8])
+				end
+
+				it "returns true" do
+					expect( subject.move(4, 8) ).to be true
+				end
+			end
 		end
 
 		context "when move is illegal" do
@@ -115,48 +136,25 @@ describe Rook do
 				end
 			end
 
-			context "in path but destination is occupied" do
-				context "by friendly" do
-					before do
-						Piece.new(subject.board, :white, 4, 8)
-					end
-
-					it "stays in its current position" do
-						subject.move(4, 8)
-						expect( subject.board.get(4, 5) ).to be subject
-					end
-
-					it "doesn't update its position tracker" do
-						subject.move(4, 8)
-						expect( subject.position ).to eq([4, 5])
-					end
-
-					it "returns false" do
-						expect( subject.move(4, 8) ).to be false
-					end
+			context "destination cell occupied by friendly" do
+				before do
+					Piece.new(subject.board, :white, 4, 8)
 				end
 
-				context "by enemy" do
-					before do
-						Piece.new(subject.board, :black, 4, 8)
-					end
-
-					it "moves to the specified position" do
-						subject.move(4, 8)
-						expect( subject.board.get(4, 8) ).to be subject
-						expect( subject.board.get(4, 5) ).to be nil
-					end
-
-					it "updates its position tracker" do
-						subject.move(4, 8)
-						expect( subject.position ).to eq([4, 8])
-					end
-
-					it "returns true" do
-						expect( subject.move(4, 8) ).to be true
-					end
+				it "stays in its current position" do
+					subject.move(4, 8)
+					expect( subject.board.get(4, 5) ).to be subject
 				end
-			end
+
+				it "doesn't update its position tracker" do
+					subject.move(4, 8)
+					expect( subject.position ).to eq([4, 5])
+				end
+
+				it "returns false" do
+					expect( subject.move(4, 8) ).to be false
+				end
+			end		
 		end
 	end
 	
