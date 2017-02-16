@@ -1,9 +1,13 @@
 require "pieces/piece"
 
 class Rook < Piece
-	
+
 	def find_legal_moves
-		self.legal_moves = []
+		self.legal_moves = []	
+		rook_moves	
+	end
+
+	def rook_moves
 		find_up
 		find_down
 		find_left
@@ -16,7 +20,7 @@ class Rook < Piece
 			break if friendly?(a, b_)
 			legal_moves << [a, b_]
 			break if enemy?(a, b_)
-		}		
+		}
 	end
 
 	def find_down
