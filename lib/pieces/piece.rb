@@ -19,7 +19,7 @@ class Piece
 
 	def proceed(x, y)		
 		board.set(nil, *position)
-		self.position = [x, y]
+		#self.position = [x, y]
 		board.set(self, x, y)
 	end
 

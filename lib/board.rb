@@ -17,6 +17,7 @@ class Board
 	end
 
 	def place(piece, x, y)
+		piece.position = [x, y] unless piece.nil?
 		self.kings[piece.faction] = [x, y] if piece.class == King		
 		self.grid[x - 1][y - 1] = piece
 	end
