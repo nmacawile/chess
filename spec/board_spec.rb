@@ -43,4 +43,37 @@ describe Board do
 			expect( subject.captures[:red] ).to include piece_b
 		end
 	end
+
+	describe "#pieces" do
+		it "list all pieces in board" do
+			piece1 = Piece.new(subject, :black, 1, 1)
+			piece2 = Piece.new(subject, :white, 1, 2)
+			piece3 = Piece.new(subject, :white, 1, 3)
+			piece4 = Piece.new(subject, :black, 1, 4)
+			expect( subject.pieces ).to include(piece1, piece2, piece3, piece4)
+			expect( subject.pieces ).not_to include nil
+		end
+	end
+
+	describe "#enemies(faction)" do
+		it "list all enemy pieces in board" do
+			piece1 = Piece.new(subject, :black, 1, 1)
+			piece2 = Piece.new(subject, :white, 1, 2)
+			piece3 = Piece.new(subject, :white, 1, 3)
+			piece4 = Piece.new(subject, :black, 1, 4)
+			expect( subject.enemies(:white) ).to include(piece1, piece4)
+			expect( subject.enemies(:white) ).not_to include(piece2, piece3)
+		end
+	end
+
+	describe "#pieces(faction)" do
+		it "list all friendly pieces in board" do
+			piece1 = Piece.new(subject, :black, 1, 1)
+			piece2 = Piece.new(subject, :white, 1, 2)
+			piece3 = Piece.new(subject, :white, 1, 3)
+			piece4 = Piece.new(subject, :black, 1, 4)
+			expect( subject.friendlies(:white) ).to include(piece2, piece3)
+			expect( subject.friendlies(:white) ).not_to include(piece1, piece4)
+		end
+	end
 end

@@ -16,4 +16,16 @@ class Board
 		captures[piece.faction] << get(x, y) unless piece.nil?
 		self.grid[x - 1][y - 1] = piece
 	end
+
+	def pieces
+		grid.flatten.reject { |cell| cell.nil? }
+	end
+
+	def enemies(faction)
+		pieces.reject { |piece| piece.faction == faction }
+	end
+
+	def friendlies(faction)
+		pieces.select { |piece| piece.faction == faction }
+	end
 end
