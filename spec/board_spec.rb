@@ -13,6 +13,12 @@ describe Board do
 			expect( subject.grid.size ).to eq 8
 			expect( subject.grid.last.size ).to eq 8
 		end
+
+		it "keeps track of the kings' positions" do
+			King.new(subject, :white, 1, 2)
+			King.new(subject, :black, 5, 7)
+			expect( subject.kings ).to include(:white => [1, 2], :black => [5, 7])			
+		end
 	end
 
 	describe "#get(x, y)" do
