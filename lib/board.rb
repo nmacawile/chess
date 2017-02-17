@@ -22,18 +22,18 @@ class Board
 		self.grid[x - 1][y - 1] = piece
 	end
 
-	def swap(x, y, a, b)
-		piece1 = get(x, y) 
-		piece2 = get(a, b)
-		place(piece1, a, b)
-		place(piece2, x, y)
-	end
-
 	def simulate_move(piece, x, y)
 		a, b = *piece.position
-		swap(x, y, a, b)
+		replaced = get(x, y)
+
+		place(piece, x, y)
+		place(nil, a, b)
+
 		result = !checked?(piece.faction)
-		swap(x, y, a, b)
+
+		place(replaced, x, y)
+		place(piece, a, b)
+
 		result
 	end
 
