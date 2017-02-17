@@ -76,4 +76,37 @@ describe Board do
 			expect( subject.friendlies(:white) ).not_to include(piece1, piece4)
 		end
 	end
+
+	describe "#enemy_moves(faction)" do
+		it "shows all possible moves of all enemy pieces" do
+			rook = Rook.new(subject, :black, 5, 5)
+			expect( subject.enemy_moves(:white) ).to include [1, 5], [8, 5], [5, 1], [5, 8]
+		end
+	end
+
+	describe "#friendly_moves(faction)" do
+		it "shows all possible moves of all friendly pieces" do
+			rook = Rook.new(subject, :white, 5, 5)
+			expect( subject.friendly_moves(:white) ).to include [1, 5], [8, 5], [5, 1], [5, 8]
+		end
+	end
+
+	describe "#checked?(faction)" do
+		context "checked" do
+			it "returns true" do
+				rook = Rook.new(subject, :black, 1, 5)
+				king = King.new(subject, :white, 8, 5)			
+				expect( subject.checked?(:white) ).to be true
+			end
+		end
+
+		context "not checked" do
+			it "returns false" do
+				rook = Rook.new(subject, :black, 1, 6)
+				king = King.new(subject, :white, 8, 5)			
+				expect( subject.checked?(:white) ).to be false
+			end
+		end
+	end
+
 end

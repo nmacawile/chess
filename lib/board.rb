@@ -28,4 +28,16 @@ class Board
 	def friendlies(faction)
 		pieces.select { |piece| piece.faction == faction }
 	end
+
+	def enemy_moves(faction)
+		enemies(faction).reduce([]) { |moves, piece| moves += piece.show_legal_moves }
+	end
+
+	def friendly_moves(faction)
+		friendlies(faction).reduce([]) { |moves, piece| moves += piece.show_legal_moves }
+	end
+
+	def checked?(faction)
+		enemy_moves(faction).include? kings[faction]
+	end
 end
