@@ -24,6 +24,11 @@ class Piece
 		board.set(self, x, y)
 	end
 
+	def show_legal_moves
+		find_legal_moves
+		legal_moves
+	end
+
 	def find_legal_moves
 		self.legal_moves = []
 		(1..8).to_a.repeated_permutation(2) do |pair|
