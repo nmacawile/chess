@@ -1,12 +1,13 @@
 require "set"
 
 class Board
-	attr_accessor :grid, :kings, :captures
+	attr_accessor :grid, :kings, :captures, :pieces
 
 	def initialize
 		@grid = Array.new(8) { Array.new(8) }
 		@kings = {}
 		@captures = Hash.new { |hsh, key| hsh[key] = [] }
+		@pieces = Set.new
 	end
 
 	def get(x, y)
@@ -19,28 +20,26 @@ class Board
 	end
 
 	def place(piece, x, y)
+		update_pieces(piece, x, y)
 		piece.position = [x, y] unless piece.nil?
 		self.kings[piece.faction] = [x, y] if piece.class == King		
 		self.grid[x - 1][y - 1] = piece
 	end
 
+	def update_pieces(piece, x, y)
+		pieces << piece unless piece.nil?
+		pieces.delete(get(x, y)) unless get(x, y).nil?
+	end
+
 	def simulate_move(piece, x, y)
 		a, b = *piece.position
 		replaced = get(x, y)
-
 		place(piece, x, y)
 		place(nil, a, b)
-
 		result = !checked?(piece.faction)
-
 		place(replaced, x, y)
 		place(piece, a, b)
-
 		result
-	end
-
-	def pieces
-		grid.flatten.reject { |cell| cell.nil? }
 	end
 
 	def enemies(faction)

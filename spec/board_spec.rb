@@ -50,6 +50,7 @@ describe Board do
 			piece2 = Piece.new(subject, :white, 1, 2)
 			piece3 = Piece.new(subject, :white, 1, 3)
 			piece4 = Piece.new(subject, :black, 1, 4)
+			expect( subject.pieces.count ).to eq 4
 			expect( subject.pieces ).to include(piece1, piece2, piece3, piece4)
 			expect( subject.pieces ).not_to include nil
 		end
