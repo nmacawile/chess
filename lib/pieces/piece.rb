@@ -12,8 +12,7 @@ class Piece
 	end
 
 	def move(x, y)
-		find_legal_moves
-		return false unless legal_moves.include? [x, y]
+		return false unless show_legal_moves.include? [x, y]
 		proceed(x, y)
 		true	
 	end
