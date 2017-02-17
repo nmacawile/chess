@@ -14,10 +14,14 @@ class Piece
 	def move(x, y)
 		find_legal_moves
 		return false unless legal_moves.include? [x, y]
+		proceed(x, y)
+		true	
+	end
+
+	def proceed(x, y)		
 		board.set(nil, *position)
 		self.position = [x, y]
 		board.set(self, x, y)
-		true	
 	end
 
 	def find_legal_moves
