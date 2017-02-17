@@ -31,9 +31,16 @@ describe Board do
 
 	describe "#set(piece, x, y)" do
 		it "sets the piece at grid position x, y" do
-			piece = double
-			subject.set(piece, 2, 3)
+			piece = Piece.new(subject, :red, 2, 3)
 			expect( subject.get(2, 3) ).to be piece
+		end
+
+		it "records all the captured pieces" do
+			piece_a = Piece.new(subject, :red, 1, 3)
+			piece_b = Piece.new(subject, :blue, 3, 3)
+			piece_a.move(3, 3)
+
+			expect( subject.captures[:red] ).to include piece_b
 		end
 	end
 end
