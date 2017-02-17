@@ -12,9 +12,28 @@ class Board
 	end
 
 	def set(piece, x, y)
-		self.kings[piece.faction] = [x, y] if piece.class == King		
 		captures[piece.faction] << get(x, y) unless piece.nil?
+		place(piece, x, y)
+	end
+
+	def place(piece, x, y)
+		self.kings[piece.faction] = [x, y] if piece.class == King		
 		self.grid[x - 1][y - 1] = piece
+	end
+
+	def swap(x, y, a, b)
+		piece1 = get(x, y) 
+		piece2 = get(a, b)
+		place(piece1, a, b)
+		place(piece2, x, y)
+	end
+
+	def simulate_move(piece, x, y)
+		a, b = *piece.position
+		swap(x, y, a, b)
+		result = !checked?(piece.faction)
+		swap(x, y, a, b)
+		result
 	end
 
 	def pieces

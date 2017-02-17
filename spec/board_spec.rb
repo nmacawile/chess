@@ -109,4 +109,37 @@ describe Board do
 		end
 	end
 
+	describe "#simulate_move(piece, x, y)" do
+		before do
+			rook = Rook.new(subject, :black, 1, 5)			
+			king = King.new(subject, :white, 8, 5)
+		end
+
+		context "exposes king" do
+			it "returns false" do
+				piece = Piece.new(subject, :white, 7, 5)	
+				expect( subject.simulate_move(piece, 7, 4) ).to be false
+			end
+
+			it "stays in its current position" do
+				piece = Piece.new(subject, :white, 7, 5)
+				subject.simulate_move(piece, 7, 4)
+				expect( subject.get(7, 5) ).to be piece
+			end
+		end
+
+		context "doesn't expose king" do
+			it "returns true" do
+				piece = Piece.new(subject, :white, 7, 5)	
+				expect( subject.simulate_move(piece, 6, 5) ).to be true
+			end
+
+			it "stays in its current position" do
+				piece = Piece.new(subject, :white, 7, 5)
+				subject.simulate_move(piece, 6, 5)
+				expect( subject.get(7, 5) ).to be piece
+			end
+		end
+	end
+
 end
