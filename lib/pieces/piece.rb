@@ -5,10 +5,10 @@ class Piece
 
 	def initialize(board, faction, x, y)
 		@board = board
-		@position = [x, y]
-		board.set(self, x, y)
+		@position = [x, y]		
 		@faction = faction
 		@legal_moves = []
+		board.set(self, x, y)
 	end
 
 	def move(x, y)
