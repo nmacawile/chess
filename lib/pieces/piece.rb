@@ -22,11 +22,9 @@ class Piece
 
 	def find_legal_moves
 		self.legal_moves = []
-		(1..8).each { |x| 
-			(1..8).each { |y|
-				legal_moves << [x, y]
-			} 
-		}
+		(1..8).to_a.repeated_permutation(2) do |pair|
+			legal_moves << pair
+		end
 	end
 
 	def friendly?(x, y)
