@@ -1,3 +1,5 @@
+require "set"
+
 class Board
 	attr_accessor :grid, :kings, :captures
 
@@ -50,11 +52,11 @@ class Board
 	end
 
 	def enemy_moves(faction)
-		enemies(faction).reduce([]) { |moves, piece| moves += piece.show_legal_moves }
+		enemies(faction).reduce(Set.new) { |moves, piece| moves += piece.show_legal_moves }
 	end
 
 	def friendly_moves(faction)
-		friendlies(faction).reduce([]) { |moves, piece| moves += piece.show_legal_moves }
+		friendlies(faction).reduce(Set.new) { |moves, piece| moves += piece.show_legal_moves }
 	end
 
 	def checked?(faction)
