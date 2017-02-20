@@ -61,4 +61,8 @@ class Board
 	def checked?(faction)
 		enemy_moves(faction).include? kings[faction]
 	end
+
+	def occupied_cells
+		pieces.map { |piece| piece.position }
+	end
 end

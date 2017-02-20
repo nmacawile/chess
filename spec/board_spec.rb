@@ -143,4 +143,14 @@ describe Board do
 		end
 	end
 
+	describe "#occupied_cells" do
+		it "lists all cells that are occupied" do
+			p2 = Piece.new(subject, :white, 7, 5)
+			p1 = Piece.new(subject, :white, 7, 6)
+			p1.move(2, 4)
+			p2.move(3, 5)
+			expect( subject.occupied_cells ).to include [3, 5], [2, 4]
+		end
+
+	end
 end
