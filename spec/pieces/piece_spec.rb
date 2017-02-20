@@ -1,11 +1,7 @@
 require_relative "../spec_helper"
 
 describe Piece do
-	before :all do 
-		@board = Board.new
-	end
-
-	subject { Piece.new(@board, :white, 1, 1) }
+	subject { Piece.new(Board.new, :white, 1, 1) }
 
 	describe "#new" do
 		it "creates a new piece" do
@@ -15,19 +11,20 @@ describe Piece do
 		it "places it in the specified position" do
 			expect( subject.board.get(1, 1) ).to be subject
 		end
+
 	end
 
 	describe "#friendly?(a, b)" do
 		context "when piece at a, b is a friendly" do
 			it "returns true" do
-				Piece.new(@board, :white, 2, 2)
+				Piece.new(subject.board, :white, 2, 2)
 				expect( subject.friendly?(2, 2) ).to be true
 			end
 		end
 
 		context "when piece at a, b is an enemy" do
 			it "returns false" do
-				Piece.new(@board, :black, 3, 3)
+				Piece.new(subject.board, :black, 3, 3)
 				expect( subject.friendly?(3, 3) ).to be false
 			end
 		end
@@ -43,14 +40,14 @@ describe Piece do
 	describe "#enemy?(a, b)" do
 		context "when piece at a, b is an enemy" do
 			it "returns true" do
-				Piece.new(@board, :black, 2, 2)
+				Piece.new(subject.board, :black, 2, 2)
 				expect( subject.enemy?(2, 2) ).to be true
 			end
 		end
 
 		context "when piece at a, b is an enemy" do
 			it "returns false" do
-				Piece.new(@board, :white, 3, 3)
+				Piece.new(subject.board, :white, 3, 3)
 				expect( subject.enemy?(3, 3) ).to be false
 			end
 		end
@@ -84,20 +81,45 @@ describe Piece do
 		end
 
 		context "when move is illegal" do
-			before do
-				subject.move(10, 3)
+			context "out of path or range" do
+				before do
+					subject.move(10, 3)
+				end
+
+				it "stays in its current position" do
+					expect( subject.board.get(1, 1) ).to be subject
+				end
+
+				it "doesn't update its position tracker" do
+					expect( subject.position ).to eq([1, 1])
+				end
+
+				it "returns false" do
+					expect( subject.move(10, 3) ).to be false
+				end
 			end
 
-			it "stays in its current position" do
-				expect( subject.board.get(1, 1) ).to be subject
-			end
+			context "within range and path but exposes king" do
+				before do
+					Rook.new(subject.board, :black, 4, 8)
+					King.new(subject.board, :white, 4, 1)
+					subject.move(4, 2)
+				end
 
-			it "doesn't update its position tracker" do
-				expect( subject.position ).to eq([1, 1])
-			end
+				it "stays in its current position" do					
+					subject.move(5, 2)
+					expect( subject.board.get(4, 2) ).to be subject
+					expect( subject.board.get(5, 2) ).to be nil
+				end
 
-			it "returns false" do
-				expect( subject.move(10, 3) ).to be false
+				it "doesn't update its position tracker" do
+					subject.move(5, 2)
+					expect( subject.position ).to eq([4, 2])
+				end
+
+				it "returns false" do
+					expect( subject.move(5, 2) ).to be false
+				end
 			end
 		end
 	end
