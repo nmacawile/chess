@@ -1,12 +1,6 @@
 require "pieces/piece"
 
-class Rook < Piece
-
-	def find_legal_moves
-		self.legal_moves = []	
-		rook_moves	
-	end
-
+module RookMoveSet
 	def rook_moves
 		find_rook_moves(:updown)
 		find_rook_moves(:leftright)
@@ -34,5 +28,13 @@ class Rook < Piece
 			(a + 1).upto(8, &add)
 		end
 	end
+end
 
+class Rook < Piece
+	include RookMoveSet
+
+	def find_legal_moves
+		self.legal_moves = []	
+		rook_moves	
+	end	
 end

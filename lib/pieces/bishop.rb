@@ -1,11 +1,6 @@
 require "pieces/piece"
 
-class Bishop < Piece
-	def find_legal_moves
-		self.legal_moves = []	
-		bishop_moves
-	end
-
+module BishopMoveSet
 	def bishop_moves
 		find_upper_left
 		find_upper_right
@@ -37,6 +32,13 @@ class Bishop < Piece
 			break if enemy?(*pair)
 		end
 	end
+end
 
-
+class Bishop < Piece
+	include BishopMoveSet
+	
+	def find_legal_moves
+		self.legal_moves = []	
+		bishop_moves
+	end
 end
