@@ -8,8 +8,8 @@ class Rook < Piece
 	end
 
 	def rook_moves
-		find(:updown)
-		find(:leftright)
+		find_rook_moves(:updown)
+		find_rook_moves(:leftright)
 	end
 
 	Patterns = { 
@@ -17,7 +17,7 @@ class Rook < Piece
 			leftright: Proc.new { |a, b, offset| [offset, b] }
 		}
 
-	def find(direction)
+	def find_rook_moves(direction)
 		add = Proc.new do |offset|
 			pair = Patterns[direction].call(*position, offset)
 			return if friendly?(*pair)
