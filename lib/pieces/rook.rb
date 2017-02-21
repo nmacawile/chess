@@ -8,41 +8,31 @@ class Rook < Piece
 	end
 
 	def rook_moves
-		find_up
-		find_down
-		find_left
-		find_right
+		find(:updown)
+		find(:leftright)
 	end
 
-	def find_up
-		find(:up, Proc.new { |a, b, offset| [a, offset] })
-	end
+	Patterns = { 
+			updown: Proc.new { |a, b, offset| [a, offset] },
+			leftright: Proc.new { |a, b, offset| [offset, b] }
+		}
 
-	def find_down
-		find(:down, Proc.new { |a, b, offset| [a, offset] })
-	end
-
-	def find_left
-		find(:left, Proc.new { |a, b, offset| [offset, b] })
-	end
-
-	def find_right
-		find(:right, Proc.new { |a, b, offset| [offset, b] })
-	end
-
-	def find(direction, pattern)
+	def find(direction)
 		add = Proc.new do |offset|
-			pair = pattern.call(*position, offset)
+			pair = Patterns[direction].call(*position, offset)
 			return if friendly?(*pair)
 			legal_moves << pair
 			return if enemy?(*pair)
 		end
-
-		a, b = *position	
-		(b + 1).upto(8, &add) if direction == :up
-		(b - 1).downto(1, &add) if direction == :down
-		(a - 1).downto(1, &add) if direction == :left
-		(a + 1).upto(8, &add) if direction == :right
+		a, b = *position
+		case direction	
+		when :updown
+			(b + 1).upto(8, &add)
+			(b - 1).downto(1, &add)
+ 		when :leftright
+			(a - 1).downto(1, &add)
+			(a + 1).upto(8, &add)
+		end
 	end
-	
+
 end
