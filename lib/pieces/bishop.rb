@@ -14,22 +14,22 @@ class Bishop < Piece
 	end
 
 	def find_upper_left
-		find { |a, b, offset| [a - offset, b + offset] }
+		find_bishop_moves { |a, b, offset| [a - offset, b + offset] }
 	end
 
 	def find_upper_right
-		find { |a, b, offset| [a + offset, b + offset] }
+		find_bishop_moves { |a, b, offset| [a + offset, b + offset] }
 	end
 
 	def find_lower_left
-		find { |a, b, offset| [a - offset, b - offset] }
+		find_bishop_moves { |a, b, offset| [a - offset, b - offset] }
 	end
 
 	def find_lower_right
-		find { |a, b, offset| [a + offset, b - offset] }
+		find_bishop_moves { |a, b, offset| [a + offset, b - offset] }
 	end
 
-	def find
+	def find_bishop_moves
 		(1..7).each do |offset|
 			pair = yield(*position, offset)
 			break if !pair.all? { |n| n.between?(1, 8) } || friendly?(*pair)
