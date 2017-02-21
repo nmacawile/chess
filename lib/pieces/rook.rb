@@ -15,11 +15,22 @@ class Rook < Piece
 	end
 
 	def find_up
-		pair = Proc.new { |a, b, offset| [a, offset] }
-		find(pair, :up)
+		find(:up, Proc.new { |a, b, offset| [a, offset] })
 	end
 
-	def find(pattern, direction)
+	def find_down
+		find(:down, Proc.new { |a, b, offset| [a, offset] })
+	end
+
+	def find_left
+		find(:left, Proc.new { |a, b, offset| [offset, b] })
+	end
+
+	def find_right
+		find(:right, Proc.new { |a, b, offset| [offset, b] })
+	end
+
+	def find(direction, pattern)
 		add = Proc.new do |offset|
 			pair = pattern.call(*position, offset)
 			return if friendly?(*pair)
@@ -27,44 +38,11 @@ class Rook < Piece
 			return if enemy?(*pair)
 		end
 
-		a, b = *position
-		
-		(b + 1).upto(8, &add) 
+		a, b = *position	
+		(b + 1).upto(8, &add) if direction == :up
+		(b - 1).downto(1, &add) if direction == :down
+		(a - 1).downto(1, &add) if direction == :left
+		(a + 1).upto(8, &add) if direction == :right
 	end
-
-	def find_up2
-		a, b = *position
-		(b + 1).upto(8) { |offset|
-			break if friendly?(a, offset)
-			legal_moves << [a, offset]
-			break if enemy?(a, offset)
-		}
-	end
-
-	def find_down
-		a, b = *position
-		(b - 1).downto(1) { |offset|
-			break if friendly?(a, offset)
-			legal_moves << [a, offset]
-			break if enemy?(a, offset)
-		}
-	end
-
-	def find_left
-		a, b = *position
-		(a - 1).downto(1) { |offset|
-			break if friendly?(offset, b)
-			legal_moves << [offset, b]
-			break if enemy?(offset, b)
-		}
-	end
-
-	def find_right
-		a, b = *position
-		(a + 1).upto(8) { |offset|
-			break if friendly?(offset, b)
-			legal_moves << [offset, b]
-			break if enemy?(offset, b)
-		}
-	end
+	
 end
