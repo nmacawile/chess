@@ -123,4 +123,19 @@ describe Piece do
 			end
 		end
 	end
+
+	describe "#moved?" do
+		context "hasn't moved yet" do
+			it "returns false" do
+				expect( subject.moved? ).to be false
+			end
+		end
+
+		context "has already moved" do
+			it "returns true" do
+				subject.move(6, 7)
+				expect( subject.moved? ).to be true
+			end
+		end
+	end
 end

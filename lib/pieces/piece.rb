@@ -2,25 +2,31 @@ require "board"
 
 class Piece
 	attr_accessor :board, :position, :faction, :legal_moves
+	attr_writer :moved
 
 	def initialize(board, faction, x, y)
 		@board = board
 		@position = [x, y]		
 		@faction = faction
 		@legal_moves = []
-		board.set(self, x, y)
+		@moved = false
+		board.set(self, x, y)		
 	end
 
-	def move(x, y)
+	def moved?
+		@moved
+	end
+
+	def move(x, y)		
 		return false unless show_legal_moves.include? [x, y]
 		return false unless safe_move?(x, y)
 		proceed(x, y)
 		true	
 	end
 
-	def proceed(x, y)		
+	def proceed(x, y)
+		self.moved = true
 		board.set(nil, *position)
-		#self.position = [x, y]
 		board.set(self, x, y)
 	end
 
