@@ -15,8 +15,24 @@ class Board
 	end
 
 	def set(piece, x, y)
-		captures[piece.faction] << get(x, y) unless piece.nil?
+		update_capture2(piece, x, y)
 		place(piece, x, y)
+		disable_en_passant
+	end
+
+	def update_capture2(piece, x, y)
+		if piece.class == Pawn && !piece.en_passant_cell.nil? && piece.en_passant_cell == [x, y]
+			captures[piece.faction] << get(*piece.en_passant_capture_cell)
+			place(nil, *piece.en_passant_capture_cell)
+		else
+			captures[piece.faction] << get(x, y) unless piece.nil?
+		end		
+	end
+
+	def disable_en_passant
+		pieces.select { |piece| piece.class == Pawn }.each do |pawn|  
+			pawn.en_passant_cell = nil
+		end
 	end
 
 	def place(piece, x, y)

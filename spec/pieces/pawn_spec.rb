@@ -56,11 +56,38 @@ describe Pawn do
 						subject.move(2, 4)
 						expect( subject.board.get(2, 4) ).to be subject
 					end
+
+					context "bypassing opposing pawn(s)" do
+						context "very next turn" do
+							it "enables bypassed opponent piece to execute en passant" do
+								enemy = Pawn.new(subject.board, :black, 3, 5)
+								enemy.move(3, 4)
+								subject.move(2, 4)
+								enemy.move(2, 3)
+								expect( subject.board.get(2, 3) ).to be enemy
+								expect( subject.board.get(2, 4) ).to be nil
+							end
+						end
+
+						context "one turn later" do
+							it "opponent piece can no longer execute en passant" do
+								enemy = Pawn.new(subject.board, :black, 3, 5)
+								enemy2 = Piece.new(subject.board, :black, 8, 8)
+								enemy.move(3, 4)
+								subject.move(2, 4)
+								enemy2.move(7, 8)
+								enemy.move(2, 3)
+
+								expect( subject.board.get(3, 4) ).to be enemy
+								expect( subject.board.get(2, 4) ).to be subject
+							end
+						end
+					end
 				end
 
 				context "blocked path" do
 					it "doesn't move" do
-						Piece.new(subject.board, :black, 2, 2)
+						Piece.new(subject.board, :black, 2, 3)
 						subject.move(2, 4)
 						expect( subject.board.get(2, 2) ).to be subject
 						expect( subject.board.get(2, 4) ).to be nil
@@ -116,7 +143,6 @@ describe Pawn do
 				end
 
 				context "en passant" do
-
 				end
 			end
 		end
