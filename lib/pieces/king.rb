@@ -32,31 +32,20 @@ class King < Piece
 		castle_queen_side
 	end
 
-	def castle_king_conditions
+	def castle_conditions(rook_corner, safe_range, free_range)
 		_, b = *position
-		!board.get(8, b).nil? &&
-		board.get(8, b).class == Rook &&
-		friendly?(8, b) &&
-		!board.get(8, b).moved? &&
+		!board.get(rook_corner, b).nil? &&
+		board.get(rook_corner, b).class == Rook &&
+		friendly?(rook_corner, b) &&
+		!board.get(rook_corner, b).moved? &&
 		!self.moved? &&
-		(5..7).none? { |x| board.enemy_moves(self.faction).include? [x, b] } &&
-		(6..7).all? { |x| board.get(x, b).nil? }
-	end
-
-	def castle_queen_conditions
-		_, b = *position
-		!board.get(1, b).nil? &&
-		board.get(1, b).class == Rook &&
-		friendly?(1, b) &&
-		!board.get(1, b).moved? &&
-		!self.moved? &&
-		(3..5).none? { |x| board.enemy_moves(self.faction).include? [x, b] } &&
-		(2..4).all? { |x| board.get(x, b).nil? }
+		safe_range.none? { |x| board.enemy_moves(self.faction).include? [x, b] } &&
+		free_range.all? { |x| board.get(x, b).nil? }
 	end
 
 	def castle_king_side
 		_, b = *position
-		if castle_king_conditions
+		if castle_conditions(8, (5..7), (6..7))
 			self.legal_moves << [7, b]
 			self.castling_cells << [7, b]
 		else
@@ -66,7 +55,7 @@ class King < Piece
 
 	def castle_queen_side
 		_, b = *position
-		if castle_queen_conditions
+		if castle_conditions(1, (3..5), (2..4))
 			self.legal_moves << [3, b]
 			self.castling_cells << [3, b]
 		else
