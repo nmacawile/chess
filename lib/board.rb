@@ -17,7 +17,20 @@ class Board
 	def set(piece, x, y)
 		update_captures(piece, x, y)
 		place(piece, x, y)
+		handle_castling(piece, x, y)
 		disable_en_passant
+	end
+
+	def handle_castling(piece, x, y)
+		if piece.class == King && piece.castling_cells.include?([x, y])
+			if x == 7
+				place(get(8, y), 6, y)
+				place(nil, 8, y)
+			elsif x == 3
+				place(get(1, y), 4, y)
+				place(nil, 1, y)
+			end
+		end
 	end
 
 	def update_captures(piece, x, y)
@@ -37,8 +50,8 @@ class Board
 
 	def place(piece, x, y)
 		update_pieces(piece, x, y)
-		piece.position = [x, y] unless piece.nil?
-		self.kings[piece.faction] = [x, y] if piece.class == King		
+		piece.position = [x, y] unless piece.nil?		
+		self.kings[piece.faction] = [x, y] if piece.class == King
 		self.grid[x - 1][y - 1] = piece
 	end
 
