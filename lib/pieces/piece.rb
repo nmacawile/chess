@@ -19,7 +19,7 @@ class Piece
 
 	def move(x, y)		
 		return false unless show_legal_moves.include? [x, y]
-		return false unless safe_move?(x, y)
+		return false unless safe_moves.include? [x, y]
 		proceed(x, y)
 		true	
 	end
@@ -35,8 +35,10 @@ class Piece
 		legal_moves
 	end
 
-	def safe_move?(x, y)
-		board.simulate_move(self, x, y)
+	def safe_moves
+		legal_moves.select do |move|
+			board.simulate_move(self, *move)
+		end
 	end
 
 	def find_legal_moves
