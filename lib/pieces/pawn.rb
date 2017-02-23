@@ -24,8 +24,6 @@ class Pawn < Piece
 		board.set(self, x, y)
 
 		trigger_enemy_en_passant(x, y) if [x, y] == two_step_cell
-		self.en_passant_cell = nil
-		self.two_step_cell = nil
 	end
 
 	def trigger_enemy_en_passant(x, y)	
