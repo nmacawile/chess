@@ -143,6 +143,32 @@ describe Pawn do
 				end
 
 				context "en passant" do
+					context "safe" do
+						it "moves to the cell and captures the Pawn behind it" do
+							enemy = Pawn.new(subject.board, :black, 3, 7)
+							subject.move(2, 4)
+							subject.move(2, 5)
+							enemy.move(3, 5)
+							subject.move(3, 6)						
+							expect( subject.board.get(3, 6) ).to be subject
+							expect( subject.board.get(3, 5) ).to be nil
+						end
+					end
+
+					context "leaves king open" do
+						it "doesn't proceed" do
+							subject.move(2, 4)
+							subject.move(2, 5)
+							Queen.new(subject.board, :black, 8, 5)
+							King.new(subject.board, :white, 1, 5)
+							enemy = Pawn.new(subject.board, :black, 3, 7)
+							enemy.move(3, 5)
+							subject.move(3, 6)
+
+							expect( subject.board.get(2, 5) ).to be subject
+							expect( subject.board.get(3, 5) ).to be enemy
+						end
+					end
 				end
 			end
 		end

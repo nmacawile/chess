@@ -48,13 +48,33 @@ class Board
 	end
 
 	def simulate_move(piece, x, y)
-		a, b = *piece.position
+		if piece.class == Pawn && !piece.en_passant_cell.nil? && piece.en_passant_cell == [x, y]
+			simulate_en_passant(piece, x, y)
+		else
+			simulate_ordinary_move(piece, x, y)
+		end
+	end
+
+	def simulate_ordinary_move(piece, x, y)
+		initial_position = piece.position
 		replaced = get(x, y)
 		place(piece, x, y)
-		place(nil, a, b)
+		place(nil, *initial_position)
 		result = !checked?(piece.faction)
 		place(replaced, x, y)
-		place(piece, a, b)
+		place(piece, *initial_position)
+		result
+	end
+
+	def simulate_en_passant(piece, x, y)
+		initial_position = piece.position
+		replaced = get(*piece.en_passant_capture_cell)
+		place(nil, *piece.en_passant_capture_cell)	
+		place(nil, *initial_position)	
+		place(piece, *piece.en_passant_cell)
+		result = !checked?(piece.faction)
+		place(piece, *initial_position)
+		place(replaced, *piece.en_passant_capture_cell)
 		result
 	end
 
