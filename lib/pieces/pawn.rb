@@ -19,10 +19,7 @@ class Pawn < Piece
 	end
 
 	def proceed(x, y)
-		self.moved = true
-		board.set(nil, *position)
-		board.set(self, x, y)
-
+		super
 		trigger_enemy_en_passant(x, y) if [x, y] == two_step_cell
 	end
 
@@ -56,8 +53,12 @@ class Pawn < Piece
 		a, b = *position
 		target_cell = [a, b + 2 * Direction[starting_position]]
 	 	cell_in_front = [a, b + Direction[starting_position]]
+	 	add_two_step_cell(cell_in_front, target_cell)
+	 	
+	end
 
-	 	if board.get(*cell_in_front).nil? && board.get(*target_cell).nil? && !moved?
+	def add_two_step_cell(cell_in_front, target_cell)
+		if board.get(*cell_in_front).nil? && board.get(*target_cell).nil? && !moved?
 			self.legal_moves << target_cell
 			self.two_step_cell = target_cell
 		end
