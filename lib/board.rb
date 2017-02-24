@@ -17,8 +17,31 @@ class Board
 	def set(piece, x, y)
 		update_captures(piece, x, y)
 		place(piece, x, y)
+		handle_promotion(piece, x, y)
 		handle_castling(piece, x, y)
 		disable_en_passant
+	end
+
+	def handle_promotion(piece, x, y)
+		if piece.class == Pawn && [1, 8].include?(y)
+			place(nil, x, y)
+			selection = choose_promotion			
+			case selection
+			when "r"
+				Rook.new(self, piece.faction, x, y)
+			when "b"
+				Bishop.new(self, piece.faction, x, y)
+			when "k"
+				Knight.new(self, piece.faction, x, y)
+			else
+				Queen.new(self, piece.faction, x, y)
+			end
+		end
+	end
+
+	def choose_promotion
+		print "Choose a piece [q]ueen, [b]ishop, [r]ook or k[n]ight: "
+		gets.chomp.downcase
 	end
 
 	def handle_castling(piece, x, y)

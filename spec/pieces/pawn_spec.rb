@@ -173,6 +173,64 @@ describe Pawn do
 			end
 		end
 
+		context "reaching enemy's first rank" do
+			context "coming from the bottom side" do
+				context "by capturing" do
+					it "gets promoted" do
+						Rook.new(subject.board, :black, 3, 8)
+						subject.move(2, 4)
+						subject.move(2, 5)
+						subject.move(2, 6)
+						subject.move(2, 7)
+						subject.move(3, 8)
+						expect( subject.board.get(2, 7) ).to be nil
+						expect( subject.board.get(3, 8) ).to be_an_instance_of Queen
+					end
+				end
+
+				context "moving straight forward" do
+					it "gets promoted" do
+						subject.move(2, 4)
+						subject.move(2, 5)
+						subject.move(2, 6)
+						subject.move(2, 7)
+						subject.move(2, 8)
+						expect( subject.board.get(2, 7) ).to be nil
+						expect( subject.board.get(2, 8) ).to be_an_instance_of Queen
+					end
+				end
+			end
+
+			context "coming from the bottom side" do
+				context "by capturing" do
+					it "gets promoted" do
+						pawn = Pawn.new(subject.board, :black, 4, 5)
+						Rook.new(subject.board, :white, 3, 1)
+						pawn.move(4, 4)
+						pawn.move(4, 3)
+						pawn.move(4, 3)
+						pawn.move(4, 2)
+						pawn.move(3, 1)
+						expect( subject.board.get(4, 2) ).to be nil
+						expect( subject.board.get(3, 1) ).to be_an_instance_of Queen
+					end
+				end
+
+				context "moving straight forward" do
+					it "gets promoted" do
+						pawn = Pawn.new(subject.board, :black, 4, 5)
+						pawn.move(4, 4)
+						pawn.move(4, 3)
+						pawn.move(4, 3)
+						pawn.move(4, 2)
+						pawn.move(4, 1)
+						expect( subject.board.get(4, 2) ).to be nil
+						expect( subject.board.get(4, 1) ).to be_an_instance_of Queen
+					end
+				end
+			end
+		end
+
 	end
 
 end
