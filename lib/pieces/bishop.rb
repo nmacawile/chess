@@ -40,5 +40,14 @@ class Bishop < Piece
 	def find_legal_moves
 		self.legal_moves = []	
 		bishop_moves
+	end	
+
+	def to_s
+		case faction
+		when :white
+			"\u2657"
+		else
+			"\u265D"
+		end
 	end
 end

@@ -76,5 +76,12 @@ class Pawn < Piece
 		self.legal_moves << en_passant_cell unless en_passant_cell.nil?
 	end
 
-
+	def to_s
+		case faction
+		when :white
+			"\u2659"
+		else
+			"\u265F"
+		end
+	end
 end

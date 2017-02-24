@@ -37,4 +37,13 @@ class Rook < Piece
 		self.legal_moves = []	
 		rook_moves	
 	end	
+
+	def to_s
+		case faction
+		when :white
+			"\u2656"
+		else
+			"\u265C"
+		end
+	end
 end

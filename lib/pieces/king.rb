@@ -63,4 +63,13 @@ class King < Piece
 		end
 	end
 
+	def to_s
+		case faction
+		when :white
+			"\u2654"
+		else
+			"\u265A"
+		end
+	end
+
 end

@@ -22,4 +22,14 @@ class Knight < Piece
 			[position, offset].transpose.map { |x| x.reduce(:+) }
 		end
 	end
+
+	def to_s
+		case faction
+		when :white
+			"\u2658"
+		else
+			"\u265E"
+		end
+	end
+
 end
