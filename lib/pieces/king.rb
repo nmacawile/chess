@@ -1,4 +1,4 @@
-require "pieces/piece"
+require_relative "piece"
 
 class King < Piece
 	attr_accessor :castling_cells

@@ -1,4 +1,4 @@
-require "pieces/piece"
+require_relative "piece"
 
 module BishopMoveSet
 	def bishop_moves

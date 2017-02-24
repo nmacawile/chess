@@ -1,5 +1,3 @@
-require "board"
-
 class Piece
 	attr_accessor :board, :position, :faction, :legal_moves
 	attr_writer :moved

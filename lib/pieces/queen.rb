@@ -1,6 +1,6 @@
-require "pieces/piece"
-require "pieces/bishop"
-require "pieces/rook"
+require_relative "piece"
+require_relative "bishop"
+require_relative "rook"
 
 class Queen < Piece
 	include BishopMoveSet

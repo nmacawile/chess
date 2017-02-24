@@ -1,4 +1,4 @@
-require "pieces/piece"
+require_relative "piece"
 
 class Pawn < Piece
 	attr_accessor :starting_position, :two_step_cell, :en_passant_cell, :en_passant_capture_cell

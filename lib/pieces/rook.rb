@@ -1,4 +1,4 @@
-require "pieces/piece"
+require_relative "piece"
 
 module RookMoveSet
 	def rook_moves

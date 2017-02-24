@@ -1,4 +1,4 @@
-require "pieces/piece"
+require_relative "piece"
 
 class Knight < Piece
 	def find_legal_moves
