@@ -2,8 +2,30 @@ require_relative "piece"
 
 module RookMoveSet
 	def rook_moves
-		find_rook_moves(:updown)
-		find_rook_moves(:leftright)
+		find_up
+		find_down
+		find_left
+		find_right
+	end
+
+	def find_up
+		a, b = *position
+		find_rook_moves(b + 1, 8, 1, &Patterns[:updown])
+	end
+
+	def find_down
+		a, b = *position
+		find_rook_moves(b - 1, 1, -1, &Patterns[:updown])
+	end
+
+	def find_left
+		a, b = *position
+		find_rook_moves(a + 1, 8, 1, &Patterns[:leftright])
+	end
+
+	def find_right
+		a, b = *position
+		find_rook_moves(a - 1, 1, -1, &Patterns[:leftright])
 	end
 
 	Patterns = { 
@@ -11,21 +33,12 @@ module RookMoveSet
 			leftright: Proc.new { |a, b, offset| [offset, b] }
 		}
 
-	def find_rook_moves(direction)
-		add = Proc.new do |offset|
-			pair = Patterns[direction].call(*position, offset)
-			return if friendly?(*pair)
-			legal_moves << pair
-			return if enemy?(*pair)
-		end
-		a, b = *position
-		case direction	
-		when :updown
-			(b + 1).upto(8, &add)
-			(b - 1).downto(1, &add)
- 		when :leftright
-			(a - 1).downto(1, &add)
-			(a + 1).upto(8, &add)
+	def find_rook_moves(initial, final, increment)
+		(initial).step(final, increment) do |offset|
+			pair = yield(*position, offset)
+			break if friendly?(*pair)
+			self.legal_moves << pair
+			break if enemy?(*pair)
 		end
 	end
 end
