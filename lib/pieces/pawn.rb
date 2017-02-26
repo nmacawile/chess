@@ -66,8 +66,10 @@ class Pawn < Piece
 
 	def capture
 		a, b = *position
-		[-1, 1].each do |n| 
-			target_cell = [a + n, b + Direction[starting_position]]
+		[-1, 1].each do |n|
+			x, y = a + n, b + Direction[starting_position]
+			target_cell = [x, y]
+			next unless x.between?(1, 8)
 			self.legal_moves << target_cell if enemy?(*target_cell) 
 		end
 	end
