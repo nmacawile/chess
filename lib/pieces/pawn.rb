@@ -24,9 +24,11 @@ class Pawn < Piece
 	end
 
 	def trigger_enemy_en_passant(x, y)	
-		[-1, 1].each do |side|
-			if !board.get(x + side, y).nil? && board.get(x + side, y).class == Pawn && enemy?(x + side, y)
-				board.get(x + side, y).trigger_en_passant(x, y - Direction[starting_position], y)
+		[-1, 1].each do |offset|
+			side = x + offset
+			next unless side.between?(1, 8)
+			if !board.get(side, y).nil? && board.get(side, y).class == Pawn && enemy?(side, y)
+				board.get(side, y).trigger_en_passant(x, y - Direction[starting_position], y)
 			end				
 		end
 	end
