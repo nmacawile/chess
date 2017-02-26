@@ -137,4 +137,21 @@ class Board
 	def occupied_cells
 		pieces.map { |piece| piece.position }
 	end
+
+	def show
+		div = " " + ("+" * 9).split(//).join("---")
+		8.downto(1).each do |row|
+			
+			puts div
+			print row
+			(1..8).each do |column| 
+				print(get(column, row).nil? ? "|   " : "| #{get(column, row)} ")
+			end
+			print "|"
+			puts ""
+		end
+		puts div
+		(1..8).each { |row| print "   #{row}" }
+		puts
+	end
 end
