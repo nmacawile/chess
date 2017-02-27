@@ -31,7 +31,7 @@ class Board
 				Rook.new(self, piece.faction, x, y)
 			when "b"
 				Bishop.new(self, piece.faction, x, y)
-			when "k"
+			when "n"
 				Knight.new(self, piece.faction, x, y)
 			else
 				Queen.new(self, piece.faction, x, y)
@@ -40,7 +40,7 @@ class Board
 	end
 
 	def choose_promotion
-		print "Choose a piece [q]ueen, [b]ishop, [r]ook or k[n]ight: "
+		print "Choose a piece queen (default), [b]ishop, [r]ook or k[n]ight: "
 		gets.chomp.downcase
 	end
 
