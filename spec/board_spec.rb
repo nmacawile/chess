@@ -151,6 +151,55 @@ describe Board do
 			p2.move(3, 5)
 			expect( subject.occupied_cells ).to include [3, 5], [2, 4]
 		end
+	end
 
+	describe "#stalemate?(faction)" do
+		context "when there are no possible moves available" do
+			context "not checked" do
+				it "returns true" do
+					board = Board.new
+					King.new(board, :white, 8, 8)
+					Rook.new(board, :black, 7, 6)
+					Rook.new(board, :black, 6, 7)
+					expect( board.stalemate?(:white) ).to be true
+				end
+			end
+
+			context "checked" do
+				it "returns false" do
+					board = Board.new
+					King.new(board, :white, 8, 8)
+					Rook.new(board, :black, 7, 6)
+					Rook.new(board, :black, 6, 7)
+					Bishop.new(board, :black, 6, 6)
+					expect( board.stalemate?(:white) ).to be false
+				end
+			end
+		end
+	end
+
+	describe "#checkmate?(faction)" do
+		context "when there are no possible moves available" do
+			context "not checked" do
+				it "returns false" do
+					board = Board.new
+					King.new(board, :white, 8, 8)
+					Rook.new(board, :black, 7, 6)
+					Rook.new(board, :black, 6, 7)
+					expect( board.checkmate?(:white) ).to be false
+				end
+			end
+
+			context "checked" do
+				it "returns true" do
+					board = Board.new
+					King.new(board, :white, 8, 8)
+					Rook.new(board, :black, 7, 6)
+					Rook.new(board, :black, 6, 7)
+					Bishop.new(board, :black, 6, 6)
+					expect( board.checkmate?(:white) ).to be true
+				end
+			end
+		end
 	end
 end

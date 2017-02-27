@@ -156,6 +156,21 @@ class Board
 		friendlies(faction).reduce(Set.new) { |moves, piece| moves += piece.show_legal_moves }
 	end
 
+	def no_moves?(faction)
+		friendlies(faction).each do |piece|
+			piece.find_legal_moves
+			return false unless piece.safe_moves.empty?
+		end
+	end
+
+	def checkmate?(faction)
+		no_moves?(faction) && checked?(faction)
+	end
+
+	def stalemate?(faction)
+		no_moves?(faction) && !checked?(faction)
+	end
+
 	def checked?(faction)
 		enemy_moves(faction).include? kings[faction]
 	end
