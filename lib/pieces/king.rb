@@ -39,7 +39,6 @@ class King < Piece
 		friendly?(rook_corner, b) &&
 		!board.get(rook_corner, b).moved? &&
 		!self.moved? &&
-		safe_range.none? { |x| board.enemy_moves(self.faction).include? [x, b] } &&
 		free_range.all? { |x| board.get(x, b).nil? }
 	end
 

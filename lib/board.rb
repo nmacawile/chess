@@ -46,12 +46,15 @@ class Board
 
 	def handle_castling(piece, x, y)
 		if piece.class == King && piece.castling_cells.include?([x, y])
+
 			if x == 7
-				place(get(8, y), 6, y)
+				castle = get(8, y)				
 				place(nil, 8, y)
+				place(castle, 6, y)
 			elsif x == 3
-				place(get(1, y), 4, y)
+				castle = get(1, y)
 				place(nil, 1, y)
+				place(castle, 4, y)				
 			end
 		end
 	end
@@ -86,6 +89,8 @@ class Board
 	def simulate_move(piece, x, y)
 		if piece.class == Pawn && !piece.en_passant_cell.nil? && piece.en_passant_cell == [x, y]
 			simulate_en_passant(piece, x, y)
+		elsif piece.class == King && !piece.castling_cells.empty? && piece.castling_cells.include?([x, y])
+			simulate_castling(piece, x, y)
 		else
 			simulate_ordinary_move(piece, x, y)
 		end
@@ -112,6 +117,27 @@ class Board
 		place(piece, *initial_position)
 		place(replaced, *piece.en_passant_capture_cell)
 		result
+	end
+
+	def simulate_castling(piece, x, y)
+		initial_position = piece.position
+
+		middle_cell = x == 7 ? [6, y] : [4, y]
+
+		place(nil, *initial_position)
+		place(piece, *middle_cell)	
+
+		result1 = !checked?(piece.faction)
+
+		place(nil, *middle_cell)
+		place(piece, x, y)
+
+		result2 = !checked?(piece.faction)
+
+		place(nil, x, y)
+		place(piece, *initial_position)
+
+		result1 && result2 && !checked?(piece.faction)
 	end
 
 	def enemies(faction)
