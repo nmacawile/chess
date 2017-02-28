@@ -64,7 +64,7 @@ class Board
 			captures[piece.faction] << get(*piece.en_passant_capture_cell)
 			place(nil, *piece.en_passant_capture_cell)
 		else
-			captures[piece.faction] << get(x, y) unless piece.nil?
+			captures[piece.faction] << get(x, y) unless piece.nil? || get(x, y).nil?
 		end		
 	end
 
