@@ -181,6 +181,9 @@ class Board
 
 	def show
 		div = "  " + ("+" * 9).split(//).join("---")
+		print " "
+		("A".."H").each { |column| print "   #{column}" }
+		puts
 		8.downto(1).each do |row|
 			
 			puts div
@@ -188,7 +191,7 @@ class Board
 			(1..8).each do |column| 
 				print(get(column, row).nil? ? "|   " : "| #{get(column, row)} ")
 			end
-			print "|"
+			print "| #{row}"
 			puts ""
 		end
 		puts div
