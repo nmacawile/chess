@@ -185,23 +185,37 @@ class Board
 	end
 
 	def show
-		div = "  " + ("+" * 9).split(//).join("---")
-		print " "
-		("A".."H").each { |column| print "   #{column}" }
-		puts
-		8.downto(1).each do |row|
-			
-			puts div
-			print "#{row} "
-			(1..8).each do |column| 
-				print(get(column, row).nil? ? "|   " : "| #{get(column, row)} ")
-			end
-			print "| #{row}"
-			puts ""
-		end
-		puts div
-		print " "
-		("A".."H").each { |column| print "   #{column}" }
-		puts
+		print column_labels + rows_with_labels + div + column_labels
 	end
+
+	def show_reversed
+		print column_labels(true) + rows_with_labels(true) + div + column_labels(true)
+	end
+
+	def div
+		"   " + ("+" * 9).split(//).join("---") + "\n"
+	end
+
+	def column_labels(reversed = false)
+		labels = ("A".."H").to_a
+		labels.reverse! if reversed
+		output = "  "
+		labels.each { |column| output += "   #{column}" }
+		output + "\n"
+	end
+
+	def rows_with_labels(reversed = false)
+		labels = 8.downto(1).to_a
+		labels.reverse! if reversed
+		output = ""
+		labels.each {  |row|	output += row_with_label(row, labels.reverse) }
+		output
+	end
+
+	def row_with_label(row, order)
+		output = "#{div} #{row} "
+		order.each { |column| output += (get(column, row).nil? ? "|   " : "| #{get(column, row)} ")	}
+		output + "| #{row}\n"
+	end
+
 end
