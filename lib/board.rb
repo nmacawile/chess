@@ -1,13 +1,14 @@
 require "set"
 
 class Board
-	attr_accessor :grid, :kings, :captures, :pieces
+	attr_accessor :grid, :kings, :captures, :pieces, :game
 
-	def initialize
+	def initialize(game = nil)
 		@grid = Array.new(8) { Array.new(8) }
 		@kings = {}
 		@captures = Hash.new { |hsh, key| hsh[key] = [] }
 		@pieces = Set.new
+		@game = game
 	end
 
 	def get(x, y)
@@ -40,8 +41,12 @@ class Board
 	end
 
 	def choose_promotion
-		print "Choose a piece queen (default), [b]ishop, [r]ook or k[n]ight: "
-		gets.chomp.downcase
+		unless game.nil?
+			game.active_player_puts "Choose a piece queen (default), [b]ishop, [r]ook or k[n]ight: "
+			game.active_player_input
+		else
+			"q"
+		end
 	end
 
 	def handle_castling(piece, x, y)
