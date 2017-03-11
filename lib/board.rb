@@ -185,7 +185,7 @@ class Board
 	end
 
 	def show
-		print column_labels + rows_with_labels + div + column_labels
+		column_labels + rows_with_labels + div + column_labels
 	end
 
 	def show_reversed
