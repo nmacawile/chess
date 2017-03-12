@@ -95,7 +95,7 @@ class Game
 		move = convert_move(input.scan /[a-h][1-8]/)
 		piece = board.get(move[0], move[1])
 		return true if piece.move(move[2], move[3])
-		puts "Uhm. You can't do that, bud."
+		puts "That move is illegal."
 		false
 	end
 
@@ -109,21 +109,21 @@ class Game
 	def empty_cell_selected?(move)
 		piece = board.get(move[0], move[1])
 		return false unless piece.nil?
-		active_player_puts "You blind? There's nothing there, genius."
+		active_player_puts "Empty cell."
 		true
 	end
 
 	def mine?(move)
 		piece = board.get(move[0], move[1])
 		return true if !piece.nil? && piece.faction == active_turn		
-		active_player_puts "That's not yours."
+		active_player_puts "That's not your piece."
 		false
 	end
 
 	def convert_move_show_message_on_failure(move)
 		converted = convert_move(move)
 		return converted if converted
-		active_player_puts "Please follow this format: a2b2"
+		active_player_puts "Please follow this format: a2b3"
 		false
 	end
 
