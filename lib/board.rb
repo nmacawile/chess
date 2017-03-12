@@ -185,11 +185,15 @@ class Board
 	end
 
 	def show
-		column_labels + rows_with_labels + div + column_labels
+		show_captures(:black) + column_labels + rows_with_labels + div + column_labels + show_captures(:white)
 	end
 
 	def show_reversed
-		print column_labels(true) + rows_with_labels(true) + div + column_labels(true)
+		show_captures(:white) + column_labels(true) + rows_with_labels(true) + div + column_labels(true) + show_captures(:black)
+	end
+
+	def show_captures(faction)		
+		(captures[faction].map { |piece| piece.to_s }.sort.join(" ").prepend "  ") + "\n"
 	end
 
 	def div
