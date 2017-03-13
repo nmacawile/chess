@@ -2,12 +2,12 @@ class Piece
 	attr_accessor :board, :position, :faction, :legal_moves
 	attr_writer :moved
 
-	def initialize(board, faction, x, y)
+	def initialize(board, faction, x, y, moved = false)
 		@board = board
 		@position = [x, y]		
 		@faction = faction
 		@legal_moves = []
-		@moved = false
+		@moved = moved
 		board.set(self, x, y)		
 	end
 

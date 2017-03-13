@@ -137,5 +137,12 @@ describe Piece do
 				expect( subject.moved? ).to be true
 			end
 		end
+
+		context "has 'moved' flag initialized to true" do
+			it "returns true" do
+				new_piece = Piece.new(subject.board, :white, 7, 7, true)
+				expect( new_piece.moved? ).to be true
+			end
+		end
 	end
 end
