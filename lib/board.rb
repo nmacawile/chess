@@ -24,53 +24,55 @@ class Board
 	end
 
 	def handle_promotion(piece, x, y)
-		if piece.class == Pawn && [1, 8].include?(y)
+		if pawn_promotion?(piece, x, y)
 			place(nil, x, y)
-			selection = choose_promotion			
-			case selection
-			when "r"
-				Rook.new(self, piece.faction, x, y)
-			when "b"
-				Bishop.new(self, piece.faction, x, y)
-			when "n"
-				Knight.new(self, piece.faction, x, y)
-			else
-				Queen.new(self, piece.faction, x, y)
-			end
+			promote_to(choose_promotion, piece.faction, x, y)
 		end
+	end
+
+	def promote_to(selection, faction, x, y)
+		case selection
+		when "r" then Rook.new(self, faction, x, y); when "b" then Bishop.new(self, faction, x, y);	when "n" then Knight.new(self, faction, x, y)
+		else Queen.new(self, faction, x, y)
+		end
+	end
+
+	def pawn_promotion?(piece, x, y)
+		piece.class == Pawn && [1, 8].include?(y)
 	end
 
 	def choose_promotion
-		unless game.nil?
-			game.active_player_puts "Choose a piece queen (default), [b]ishop, [r]ook or k[n]ight: "
-			game.active_player_input
-		else
-			"q"
-		end
+		return if game.nil?
+		game.active_player_puts "Choose a piece queen (default), [b]ishop, [r]ook or k[n]ight. "
+		game.active_player_input
 	end
 
 	def handle_castling(piece, x, y)
-		if piece.class == King && piece.castling_cells.include?([x, y])
-
-			if x == 7
-				castle = get(8, y)				
-				place(nil, 8, y)
-				place(castle, 6, y)
-			elsif x == 3
-				castle = get(1, y)
-				place(nil, 1, y)
-				place(castle, 4, y)				
-			end
+		if castling?(piece, x, y)
+			move_rook(y, 8, 6) if x == 7
+			move_rook(y, 1, 4) if x == 3
 		end
 	end
 
+	def move_rook(y, rook_x1, rook_x2)
+		rook = get(rook_x1, y)				
+		place(nil, rook_x1, y)
+		place(rook, rook_x2, y)
+	end
+
 	def update_captures(piece, x, y)
-		if piece.class == Pawn && !piece.en_passant_cell.nil? && piece.en_passant_cell == [x, y]
-			captures[piece.faction] << get(*piece.en_passant_capture_cell)
-			place(nil, *piece.en_passant_capture_cell)
-		else
-			captures[piece.faction] << get(x, y) unless piece.nil? || get(x, y).nil?
+		if en_passant?(piece, x, y) then en_passant_capture(piece, x, y)
+		else ordinary_capture(piece, x, y)
 		end		
+	end
+
+	def en_passant_capture(piece, x, y)
+		captures[piece.faction] << get(x, y)
+		place(nil, *piece.en_passant_capture_cell)
+	end
+
+	def ordinary_capture(piece, x, y)
+		captures[piece.faction] << get(x, y) unless piece.nil? || get(x, y).nil?
 	end
 
 	def disable_en_passant
@@ -92,13 +94,18 @@ class Board
 	end
 
 	def simulate_move(piece, x, y)
-		if piece.class == Pawn && !piece.en_passant_cell.nil? && piece.en_passant_cell == [x, y]
-			simulate_en_passant(piece, x, y)
-		elsif piece.class == King && !piece.castling_cells.empty? && piece.castling_cells.include?([x, y])
-			simulate_castling(piece, x, y)
-		else
-			simulate_ordinary_move(piece, x, y)
+		if en_passant?(piece, x, y) then simulate_en_passant(piece, x, y)
+		elsif castling?(piece, x, y) then simulate_castling(piece, x, y)
+		else simulate_ordinary_move(piece, x, y)
 		end
+	end
+
+	def castling?(piece, x, y)
+		piece.class == King && !piece.castling_cells.empty? && piece.castling_cells.include?([x, y])
+	end
+
+	def en_passant?(piece, x, y)
+		piece.class == Pawn && !piece.en_passant_cell.nil? && piece.en_passant_cell == [x, y]
 	end
 
 	def simulate_ordinary_move(piece, x, y)
