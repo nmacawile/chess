@@ -23,6 +23,12 @@ class Board
 		disable_en_passant
 	end
 
+	def move(x1, y1, x2, y2)
+		piece = get(x1, y1)		
+		set(nil, x1, y1)
+		set(piece, x2, y2)
+	end
+
 	def handle_promotion(piece, x, y)
 		if pawn_promotion?(piece, x, y)
 			place(nil, x, y)

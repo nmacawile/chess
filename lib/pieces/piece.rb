@@ -24,8 +24,7 @@ class Piece
 
 	def proceed(x, y)
 		self.moved = true
-		board.set(nil, *position)
-		board.set(self, x, y)
+		board.move(*position, x, y)
 	end
 
 	def show_legal_moves
