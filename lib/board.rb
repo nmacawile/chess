@@ -31,10 +31,10 @@ class Board
 	end
 
 	def promote_to(selection, faction, x, y)
-		case selection
-		when "r" then Rook.new(self, faction, x, y); when "b" then Bishop.new(self, faction, x, y);	when "n" then Knight.new(self, faction, x, y)
-		else Queen.new(self, faction, x, y)
-		end
+		Queen.new(self, faction, x, y) unless %w(r b n).include?(selection)
+		Rook.new(self, faction, x, y) if selection == "r"
+		Bishop.new(self, faction, x, y)if selection == "b"
+		Knight.new(self, faction, x, y)if selection == "n"
 	end
 
 	def pawn_promotion?(piece, x, y)
