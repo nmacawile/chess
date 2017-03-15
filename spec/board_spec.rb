@@ -202,4 +202,13 @@ describe Board do
 			end
 		end
 	end
+
+	describe "#move(x1, y1, x2, y2)" do
+		it "moves the piece in x1, y1 to y1, y2" do
+			piece = Piece.new(subject, :white, 1, 1) 
+			subject.move(1, 1, 2, 2)
+			expect( subject.get(1, 1) ).to be nil
+			expect( subject.get(2, 2) ).to be piece
+		end
+	end
 end
