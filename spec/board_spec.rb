@@ -67,7 +67,7 @@ describe Board do
 		end
 	end
 
-	describe "#pieces(faction)" do
+	describe "#friendlies(faction)" do
 		it "list all friendly pieces in board" do
 			piece1 = Piece.new(subject, :black, 1, 1)
 			piece2 = Piece.new(subject, :white, 1, 2)
