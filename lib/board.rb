@@ -1,11 +1,12 @@
 require "set"
 
 class Board
-	attr_accessor :grid, :kings, :captures, :pieces_in_play, :game
+	attr_accessor :grid, :kings, :captures, :pieces_in_play, :game, :previous_turn
 
 	def initialize(game = nil)
 		@grid = Array.new(8) { Array.new(8) }
 		@kings = {}
+		@previous_turn = nil
 		@captures = Hash.new { |hsh, key| hsh[key] = [] }
 		@pieces_in_play = Set.new
 		@game = game
@@ -24,8 +25,9 @@ class Board
 	end
 
 	def move(x1, y1, x2, y2)
-		piece = get(x1, y1)		
-		set(nil, x1, y1)
+		piece = get(x1, y1)
+		self.previous_turn = piece.faction
+		set(nil, x1, y1)		
 		set(piece, x2, y2)
 	end
 

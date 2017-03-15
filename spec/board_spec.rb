@@ -211,4 +211,31 @@ describe Board do
 			expect( subject.get(2, 2) ).to be piece
 		end
 	end
+
+	describe "#previous_turn" do
+		context "when a piece moves" do
+			before do
+				piece1 = Piece.new(subject, :white, 1, 1)
+				piece1.move(2, 2)
+			end
+
+			it "returns the faction of the piece that moved last" do
+				expect( subject.previous_turn ).to eq :white
+			end
+
+			it "returns the faction of the piece that moved last" do
+				piece2 = Piece.new(subject, :black, 3, 3)
+				piece2.move(4, 4)
+				expect( subject.previous_turn ).to eq :black
+			end
+		end
+
+		context "when no pieces have moved yet" do
+			it "returns nil" do
+				piece1 = Piece.new(subject, :white, 1, 1)
+				piece2 = Piece.new(subject, :black, 8, 8)
+				expect( subject.previous_turn ).to be nil
+			end
+		end
+	end
 end
