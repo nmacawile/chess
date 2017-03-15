@@ -38,6 +38,10 @@ class Piece
 		end
 	end
 
+	def copy_to(another_board)
+		self.class.new(another_board, faction, *position, moved?)
+	end
+
 	def find_legal_moves
 		self.legal_moves = []
 		(1..8).to_a.repeated_permutation(2) do |pair|

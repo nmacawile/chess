@@ -145,4 +145,33 @@ describe Piece do
 			end
 		end
 	end
+
+	describe "#copy_to(board)" do
+		context "Piece class" do
+			it "creates a copy of piece to another board" do
+				board1 = Board.new
+				board2 = Board.new
+				original = Piece.new(board1, :white, 1, 1, true)
+				copy = original.copy_to(board2)
+				expect( board2.get(1, 1) ).to be copy
+				expect( copy.board ).to be board2
+				expect( copy.position ).to eq [1, 1]
+				expect( copy.moved? ).to be true
+			end
+		end
+
+		context "Piece subclass" do
+			it "creates a copy of piece to another board" do
+				board1 = Board.new
+				board2 = Board.new
+				original = Rook.new(board1, :white, 1, 1)
+				copy = original.copy_to(board2)
+				expect( board2.get(1, 1) ).to be copy
+				expect( copy.board ).to be board2
+				expect( copy.position ).to eq [1, 1]
+				expect( copy.moved? ).to be false
+			end
+		end
+
+	end
 end
