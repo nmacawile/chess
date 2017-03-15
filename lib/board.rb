@@ -1,13 +1,13 @@
 require "set"
 
 class Board
-	attr_accessor :grid, :kings, :captures, :pieces, :game
+	attr_accessor :grid, :kings, :captures, :pieces_in_play, :game
 
 	def initialize(game = nil)
 		@grid = Array.new(8) { Array.new(8) }
 		@kings = {}
 		@captures = Hash.new { |hsh, key| hsh[key] = [] }
-		@pieces = Set.new
+		@pieces_in_play = Set.new
 		@game = game
 	end
 
@@ -82,7 +82,7 @@ class Board
 	end
 
 	def disable_en_passant
-		pieces.select { |piece| piece.class == Pawn }.each do |pawn|  
+		pieces_in_play.select { |piece| piece.class == Pawn }.each do |pawn|  
 			pawn.en_passant_cell = nil
 		end
 	end
@@ -95,8 +95,8 @@ class Board
 	end
 
 	def update_pieces(piece, x, y)
-		pieces << piece unless piece.nil?
-		pieces.delete(get(x, y)) unless get(x, y).nil?
+		pieces_in_play << piece unless piece.nil?
+		pieces_in_play.delete(get(x, y)) unless get(x, y).nil?
 	end
 
 	def simulate_move(piece, x, y)
@@ -159,11 +159,11 @@ class Board
 	end
 
 	def enemies(faction)
-		pieces.reject { |piece| piece.faction == faction }
+		pieces_in_play.reject { |piece| piece.faction == faction }
 	end
 
 	def friendlies(faction)
-		pieces.select { |piece| piece.faction == faction }
+		pieces_in_play.select { |piece| piece.faction == faction }
 	end
 
 	def enemy_moves(faction)
@@ -194,7 +194,7 @@ class Board
 	end
 
 	def occupied_cells
-		pieces.map { |piece| piece.position }
+		pieces_in_play.map { |piece| piece.position }
 	end
 
 	def show

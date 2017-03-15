@@ -44,15 +44,15 @@ describe Board do
 		end
 	end
 
-	describe "#pieces" do
-		it "list all pieces in board" do
+	describe "#pieces_in_play" do
+		it "list all pieces in play" do
 			piece1 = Piece.new(subject, :black, 1, 1)
 			piece2 = Piece.new(subject, :white, 1, 2)
 			piece3 = Piece.new(subject, :white, 1, 3)
 			piece4 = Piece.new(subject, :black, 1, 4)
-			expect( subject.pieces.count ).to eq 4
-			expect( subject.pieces ).to include(piece1, piece2, piece3, piece4)
-			expect( subject.pieces ).not_to include nil
+			expect( subject.pieces_in_play.count ).to eq 4
+			expect( subject.pieces_in_play ).to include(piece1, piece2, piece3, piece4)
+			expect( subject.pieces_in_play ).not_to include nil
 		end
 	end
 
