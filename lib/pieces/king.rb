@@ -3,7 +3,7 @@ require_relative "piece"
 class King < Piece
 	attr_accessor :castling_cells
 
-	def initialize(board, faction, x, y)
+	def initialize(board, faction, x, y, moved = false)
 		@castling_cells = []
 		super		
 	end
