@@ -238,4 +238,31 @@ describe Board do
 			end
 		end
 	end
+
+	describe "#copy_pieces_to(new_board)" do
+		it "creates a copy of the current state of the board" do
+			original = Board.new
+			King.new(original, :white, 1, 2)
+			Queen.new(original, :white, 2, 3)
+			Rook.new(original, :white, 3, 4)
+			Bishop.new(original, :white, 4, 5)
+			copy = original.copy
+
+			expect( copy.get(1, 2) ).to be_an_instance_of King
+			expect( copy.get(2, 3) ).to be_an_instance_of Queen
+			expect( copy.get(3, 4) ).to be_an_instance_of Rook
+			expect( copy.get(4, 5) ).to be_an_instance_of Bishop
+		end
+
+		it "copies previous_turn value over to the new board" do
+			original = Board.new
+			wk = King.new(original, :white, 1, 2)
+			bk = King.new(original, :black, 1, 8)
+			wk.move(2, 2)
+			bk.move(1, 7)
+
+			copy = original.copy
+			expect( copy.previous_turn ).to eq :black
+		end
+	end
 end

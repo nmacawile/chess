@@ -101,6 +101,18 @@ class Board
 		pieces_in_play.delete(get(x, y)) unless get(x, y).nil?
 	end
 
+	def copy
+		new_board = self.class.new
+		copy_pieces_to(new_board)
+		new_board.previous_turn = previous_turn
+		new_board
+	end
+
+	def copy_pieces_to(new_board)
+		pieces_in_play.each { |piece| piece.copy_to(new_board) }
+		new_board
+	end
+
 	def simulate_move(piece, x, y)
 		if en_passant?(piece, x, y) then simulate_en_passant(piece, x, y)
 		elsif castling?(piece, x, y) then simulate_castling(piece, x, y)
