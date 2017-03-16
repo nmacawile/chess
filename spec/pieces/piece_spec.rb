@@ -152,10 +152,12 @@ describe Piece do
 				board1 = Board.new
 				board2 = Board.new
 				original = Piece.new(board1, :white, 1, 1, true)
-				copy = original.copy_to(board2)
-				expect( board2.get(1, 1) ).to be copy
-				expect( copy.board ).to be board2
+				original.copy_to(board2)
+				copy = board2.get(1, 1)
+
+				expect( copy ).to be_an_instance_of Piece
 				expect( copy.position ).to eq [1, 1]
+				expect( copy.faction ).to eq :white
 				expect( copy.moved? ).to be true
 			end
 		end
@@ -165,10 +167,12 @@ describe Piece do
 				board1 = Board.new
 				board2 = Board.new
 				original = Rook.new(board1, :white, 1, 1)
-				copy = original.copy_to(board2)
-				expect( board2.get(1, 1) ).to be copy
-				expect( copy.board ).to be board2
+				original.copy_to(board2)				
+				copy = board2.get(1, 1)
+
+				expect( copy ).to be_an_instance_of Rook
 				expect( copy.position ).to eq [1, 1]
+				expect( copy.faction ).to eq :white
 				expect( copy.moved? ).to be false
 			end
 		end
