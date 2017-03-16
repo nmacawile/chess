@@ -5,12 +5,24 @@ class Pawn < Piece
 
 	Direction = { bottom: 1, top: -1 }
 
-	def initialize(board, faction, x, y)
+	def initialize(board, faction, x, y, moved = false)
 		@starting_position = y > 4 ? :top : :bottom
 		@two_step_cell = nil
 		@en_passant_cell = nil
 		@en_passant_capture_cell
 		super
+	end
+
+	def copy_to(another_board)
+		copy = self.class.new(another_board, faction, *position, moved?)
+		copy_special_attributes_to(copy)		
+		copy
+	end
+
+	def copy_special_attributes_to(copy)
+		copy.two_step_cell = two_step_cell
+		copy.en_passant_cell = en_passant_cell
+		copy.en_passant_capture_cell = en_passant_capture_cell
 	end
 
 	def find_legal_moves

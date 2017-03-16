@@ -233,4 +233,39 @@ describe Pawn do
 
 	end
 
+	describe "#copy_to(board)" do
+		it "creates a copy of piece to another board" do
+			board1 = Board.new
+			board2 = Board.new
+			original = Pawn.new(board1, :white, 3, 2, true)
+			original.copy_to(board2)
+			copy = board2.get(3, 2)
+
+			expect( copy ).to be_an_instance_of Pawn
+			expect( copy.position ).to eq [3, 2]
+			expect( copy.faction ).to eq :white
+			expect( copy.moved? ).to be true
+		end
+
+		it "copies the original piece's special attributes over to the new piece" do
+			board1 = Board.new
+			board2 = Board.new
+			original = Pawn.new(board1, :white, 3, 2)
+			enemypawn = Pawn.new(board1, :black, 4, 7)
+			original.move(3, 4)
+			original.move(3, 5)
+			enemypawn.move(4, 5)
+
+			original.copy_to(board2)
+
+			copy = board2.get(3, 5)
+
+			expect( copy ).to be_an_instance_of Pawn
+			expect( copy.en_passant_cell ).to eq [4, 6]
+			expect( copy.en_passant_capture_cell ).to eq [4, 5]
+			expect( copy.two_step_cell ).to eq [3, 4]
+
+		end
+	end
+
 end
