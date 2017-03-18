@@ -21,7 +21,6 @@ class Board
 		place(piece, x, y)
 		handle_promotion(piece, x, y)
 		handle_castling(piece, x, y)
-		disable_en_passant
 	end
 
 	def move(x1, y1, x2, y2)
@@ -29,6 +28,7 @@ class Board
 		self.previous_turn = piece.faction
 		set(nil, x1, y1)		
 		set(piece, x2, y2)
+		disable_en_passant
 	end
 
 	def handle_promotion(piece, x, y)
