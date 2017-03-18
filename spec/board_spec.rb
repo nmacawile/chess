@@ -264,5 +264,47 @@ describe Board do
 			copy = original.copy
 			expect( copy.previous_turn ).to eq :black
 		end
+
+		context "pawn copy" do
+			context "en passant window" do
+				it "copies pawn's special attributes" do
+					original = Board.new
+					wk = King.new(original, :white, 1, 5)			
+					bk = King.new(original, :black, 8, 5)
+
+					pawn1 = Pawn.new(original, :white, 2, 2)
+					pawn2 = Pawn.new(original, :black, 3, 7)
+
+					pawn1.move(2, 4)
+					pawn1.move(2, 5)
+					pawn2.move(3, 5)
+
+					copy = original.copy
+
+					expect( copy.get(2, 5).en_passant_cell ).to eq [3, 6]
+					expect( copy.get(2, 5).en_passant_capture_cell ).to eq [3, 5]
+				end
+			end
+
+			context "en passant expires" do
+				it "copies pawn's special attributes" do
+					original = Board.new
+					wk = King.new(original, :white, 1, 5)			
+					bk = King.new(original, :black, 8, 5)
+
+					pawn1 = Pawn.new(original, :white, 2, 2)
+					pawn2 = Pawn.new(original, :black, 3, 7)
+
+					pawn1.move(2, 4)
+					pawn1.move(2, 5)
+					pawn2.move(3, 5)
+					wk.move(1, 6)
+
+					copy = original.copy
+
+					expect( copy.get(2, 5).en_passant_cell ).to eq nil
+				end
+			end
+		end
 	end
 end
