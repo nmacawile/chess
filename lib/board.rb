@@ -114,10 +114,14 @@ class Board
 	end
 
 	def simulate_move(piece, x, y)
-		if en_passant?(piece, x, y) then simulate_en_passant(piece, x, y)
-		elsif castling?(piece, x, y) then simulate_castling(piece, x, y)
-		else simulate_ordinary_move(piece, x, y)
-		end
+		return simulate_castling(piece, x, y) if castling?(piece, x, y)
+		simulation(piece, x, y)
+	end
+
+	def simulation(piece, x, y)
+		simulation_board = copy
+		simulation_board.move(*piece.position, x, y)
+		return !simulation_board.checked?(piece.faction)
 	end
 
 	def castling?(piece, x, y)
@@ -128,48 +132,12 @@ class Board
 		piece.class == Pawn && !piece.en_passant_cell.nil? && piece.en_passant_cell == [x, y]
 	end
 
-	def simulate_ordinary_move(piece, x, y)
-		initial_position = piece.position
-		replaced = get(x, y)
-		place(piece, x, y)
-		place(nil, *initial_position)
-		result = !checked?(piece.faction)
-		place(replaced, x, y)
-		place(piece, *initial_position)
-		result
-	end
-
-	def simulate_en_passant(piece, x, y)
-		initial_position = piece.position
-		replaced = get(*piece.en_passant_capture_cell)
-		place(nil, *piece.en_passant_capture_cell)	
-		place(nil, *initial_position)	
-		place(piece, *piece.en_passant_cell)
-		result = !checked?(piece.faction)
-		place(piece, *initial_position)
-		place(replaced, *piece.en_passant_capture_cell)
-		result
-	end
-
 	def simulate_castling(piece, x, y)
-		initial_position = piece.position
-
 		middle_cell = x == 7 ? [6, y] : [4, y]
-
-		place(nil, *initial_position)
-		place(piece, *middle_cell)	
-
-		result1 = !checked?(piece.faction)
-
-		place(nil, *middle_cell)
-		place(piece, x, y)
-
-		result2 = !checked?(piece.faction)
-
-		place(nil, x, y)
-		place(piece, *initial_position)
-
-		result1 && result2 && !checked?(piece.faction)
+		not_checked = !checked?(piece.faction)	
+		middle_cell_not_checked = simulation(piece, *middle_cell)
+		destination_cell_not_checked = simulation(piece, x, y)
+		not_checked  &&middle_cell_not_checked &&destination_cell_not_checked
 	end
 
 	def enemies(faction)
