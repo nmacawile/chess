@@ -163,6 +163,15 @@ class Board
 		end
 	end
 
+	def available_moves(faction)
+		moves = {}
+		friendlies(faction).each do |piece|
+			piece.find_legal_moves
+			moves[piece.position] = piece.safe_moves unless piece.safe_moves.empty?
+		end
+		moves
+	end
+
 	def checkmate?(faction)
 		no_moves?(faction) && checked?(faction)
 	end

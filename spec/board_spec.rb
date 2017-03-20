@@ -307,4 +307,25 @@ describe Board do
 			end
 		end
 	end
+
+	describe "#available_moves(faction)" do
+		it "returns a hash table of each piece's position and the array of all its available moves as value" do
+			board = Board.new
+
+			Queen.new(board, :black, 6, 8)
+			Bishop.new(board, :black, 1, 5)
+			Pawn.new(board, :white, 2, 2)
+			Pawn.new(board, :white, 4, 2)
+			King.new(board, :white, 5, 1)
+
+			result = board.available_moves(:white)
+
+			expect( result ).to have_key([5, 1])
+			expect( result ).to have_key([2, 2])
+			expect( result ).not_to have_key([4, 2])
+
+			expect( result[[5, 1]] ).to match_array [[5, 2], [4, 1]]
+			expect( result[[2, 2]] ).to match_array [[2, 3], [2, 4]]
+		end
+	end
 end
