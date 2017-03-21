@@ -77,3 +77,34 @@ class NetworkPlayer < Player
 	end	
 	
 end
+
+class ComputerPlayer < Player
+
+	def input
+		print_to_screen "#{self} : "
+		get_input
+	end
+
+	def turn
+		move_hash = game.board.available_moves(faction)
+		piece_position = move_hash.keys.sample
+		destination = move_hash[piece_position].sample
+		[piece_position, destination]
+	end
+
+	def get_input
+		"n"
+	end
+
+	def puts_to_screen(message)
+
+	end
+
+	def print_to_screen(message)
+
+	end
+
+	def show_turn_message
+		
+	end
+end
