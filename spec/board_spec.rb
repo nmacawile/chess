@@ -129,6 +129,16 @@ describe Board do
 			end
 		end
 
+		context "king moving into an opponent pawn's 'capture cell" do
+			it "returns false" do
+				board = Board.new
+				bking = King.new(board, :black, 8, 8)
+				bking2 = King.new(board, :black, 8, 8)
+				wpawn = Pawn.new(board, :white, 6, 6)
+				expect( board.simulate_move(bking, 7, 7) ).to be false
+			end
+		end
+
 		context "doesn't expose king" do
 			it "returns true" do
 				piece = Piece.new(subject, :white, 7, 5)	

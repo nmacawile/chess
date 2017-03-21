@@ -6,7 +6,7 @@ class Pawn < Piece
 	Direction = { bottom: 1, top: -1 }
 
 	def initialize(board, faction, x, y, moved = false)
-		@starting_position = y > 4 ? :top : :bottom
+		@starting_position = faction == :white ? :bottom : :top
 		@two_step_cell = nil
 		@en_passant_cell = nil
 		@en_passant_capture_cell
