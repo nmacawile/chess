@@ -15,7 +15,7 @@ class Game
 		@board = Board.new(self)
 		@players = { white: p1_class.new(self, p1name, :white), black: p2_class.new(self, p2name, :black) }
 		@active_turn = :white	
-		fake_setup_board
+		setup_board
 	end
 
 	def switch_turn
@@ -296,11 +296,5 @@ class Game
 		if offline_match? then puts message
 		else [:white, :black].each { |faction| player_puts(faction, message) }
 		end
-	end		
-
-	def fake_setup_board
-		place_king_and_queen(:white, 1)
-		place_king_and_queen(:black, 8)
-		Pawn.new(board, :white, 1, 4)
-	end
+	end	
 end
