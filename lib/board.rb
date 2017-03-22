@@ -180,6 +180,10 @@ class Board
 		no_moves?(faction) && !checked?(faction)
 	end
 
+	def only_kings_remain?
+		pieces_in_play.all? { |piece| piece.class == King }
+	end
+
 	def checked?(faction)
 		enemy_moves(faction).include? kings[faction]
 	end

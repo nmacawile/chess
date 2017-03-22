@@ -78,6 +78,7 @@ class Game
 	def show_result
 		if draw_accepted? then both_puts "Both players have agreed to a draw!"
 		elsif resigned? then both_puts "#{active_player} resigns. #{other_player} wins!"
+		elsif only_kings_remain? then both_puts "It's a draw!"
 		elsif stalemate? then both_puts "Stalemate! It's a draw!" 
 		elsif checkmate? then both_puts "Checkmate! #{active_player} wins!"
 		end
@@ -222,7 +223,11 @@ class Game
 	end
 
 	def over?
-		stalemate? || checkmate?
+		stalemate? || only_kings_remain? || checkmate?
+	end
+
+	def only_kings_remain?
+		board.only_kings_remain?
 	end
 
 	def stalemate?

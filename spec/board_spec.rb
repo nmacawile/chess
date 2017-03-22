@@ -213,6 +213,23 @@ describe Board do
 		end
 	end
 
+	describe "#only_kings_remain?" do
+		it "returns true" do
+			board = Board.new
+			King.new(board, :white, 1, 1)
+			King.new(board, :black, 8, 8)
+			expect( board.only_kings_remain? ).to be true			
+		end
+
+		it "returns false" do
+			board = Board.new
+			King.new(board, :white, 1, 1)
+			King.new(board, :black, 8, 8)
+			Pawn.new(board, :black, 7, 7)
+			expect( board.only_kings_remain? ).to be false
+		end
+	end
+
 	describe "#move(x1, y1, x2, y2)" do
 		it "moves the piece in x1, y1 to y1, y2" do
 			piece = Piece.new(subject, :white, 1, 1) 
