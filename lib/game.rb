@@ -84,11 +84,22 @@ class Game
 	end
 
 	def player_turn
+		if active_player.class == ComputerPlayer then computer_player_turn
+		else human_player_turn
+		end
+	end
+
+	def human_player_turn
 		loop do
 			input = active_player.turn
 			next if command?(input) || invalid?(input)
 			break if move_success?(input)
 		end
+	end
+
+	def computer_player_turn
+		move = active_player.turn
+		board.move(*move)
 	end
 
 	def move_success?(input)

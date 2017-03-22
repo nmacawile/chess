@@ -89,7 +89,7 @@ class ComputerPlayer < Player
 		move_hash = game.board.available_moves(faction)
 		piece_position = move_hash.keys.sample
 		destination = move_hash[piece_position].sample
-		[piece_position, destination]
+		[*piece_position, *destination]
 	end
 
 	def get_input
