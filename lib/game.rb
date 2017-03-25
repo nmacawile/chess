@@ -99,8 +99,8 @@ class Game
 	end
 
 	def computer_player_turn
-		move = active_player.turn
-		board.move(*move)
+		piece_position, target_cell = active_player.turn
+		board.get(*piece_position).move(*target_cell)
 	end
 
 	def move_success?(input)
