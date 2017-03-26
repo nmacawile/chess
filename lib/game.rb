@@ -1,3 +1,4 @@
+require "yaml"
 require_relative "board"
 require_relative "player"
 require_relative "pieces/rook"
@@ -141,7 +142,7 @@ class Game
 
 	def command?(input)
 		case input
-		when "draw" then confirm_draw; when "resign" then confirm_resign; when "quit" then confirm_quit
+		when "draw" then confirm_draw; when "resign" then confirm_resign; when "quit" then confirm_quit; when "save" then confirm_save
 		end
 	end
 
@@ -174,6 +175,19 @@ class Game
 
 	def confirm_quit
 		self.resigned = true
+		throw :stop
+	end
+
+	def confirm_save
+		active_player_puts "Save and quit game? Y/N?"
+		save if active_player.input == "y"
+		true
+	end
+
+	def save
+		save_folder = "save"
+		Dir.mkdir(save_folder) unless Dir.exists?(save_folder)
+		File.open(save_folder + "/game.yml", "w") { |file| file.write(self.to_yaml) }
 		throw :stop
 	end
 
