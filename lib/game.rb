@@ -179,9 +179,19 @@ class Game
 	end
 
 	def confirm_save
+		if online_match? then active_player_puts "You can't save an online game."
+		else prompt_save			
+		end
+		true
+	end
+
+	def prompt_save
 		active_player_puts "Save and quit game? Y/N?"
 		save if active_player.input == "y"
-		true
+	end
+
+	def online_match?
+		players[:white].class == NetworkPlayer || players[:black].class == NetworkPlayer 
 	end
 
 	def save
