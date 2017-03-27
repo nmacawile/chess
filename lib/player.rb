@@ -59,6 +59,7 @@ class NetworkPlayer < Player
 
 	def end_session
 		player.puts "ENDSESSION"
+		server.close
 	end
 
 	def wait_for_player
