@@ -19,6 +19,3 @@ class Client
   end
 
 end
-
-server = TCPSocket.open( "localhost", 3000 )
-Client.new( server )
