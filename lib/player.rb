@@ -72,7 +72,8 @@ class NetworkPlayer < Player
 	def enter_name
 		player.puts "Please enter your name: "
 		player.puts "INPUT"
-		self.name = player.gets.chomp
+		new_name = player.gets.chomp
+		self.name = new_name.match(/^\s*$/)? name : new_name
 	end
 
 	def get_input
