@@ -57,6 +57,10 @@ class NetworkPlayer < Player
 		self.server = TCPServer.open("localhost", 3000)
 	end
 
+	def end_session
+		player.puts "ENDSESSION"
+	end
+
 	def wait_for_player
 		print "Waiting for player..."
 		self.player = server.accept
@@ -64,6 +68,7 @@ class NetworkPlayer < Player
 	end
 
 	def get_input
+		player.puts "INPUT"
 		input = player.gets.chomp
 		input
 	end

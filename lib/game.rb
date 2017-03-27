@@ -61,11 +61,10 @@ class Game
 	end
 
 	def play		
-		catch :stop do
-			manage_turns
-		end
+		catch(:stop) { manage_turns }
 		show_board
 		show_result
+		end_online_session
 	end
 
 	def manage_turns
@@ -83,6 +82,10 @@ class Game
 		elsif stalemate? then both_puts "Stalemate! It's a draw!" 
 		elsif checkmate? then both_puts "Checkmate! #{active_player} wins!"
 		end
+	end
+
+	def end_online_session
+		players.each { |side, player| player.end_session if player.class == NetworkPlayer }
 	end
 
 	def player_turn
