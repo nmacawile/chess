@@ -111,7 +111,7 @@ class Game
 		move = convert_move(input.scan /[a-h][1-8]/)
 		piece = board.get(move[0], move[1])
 		return true if piece.move(move[2], move[3])
-		puts "That move is illegal."
+		active_player_puts "That move is illegal."
 		false
 	end
 
