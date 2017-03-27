@@ -213,20 +213,102 @@ describe Board do
 		end
 	end
 
-	describe "#only_kings_remain?" do
-		it "returns true" do
-			board = Board.new
-			King.new(board, :white, 1, 1)
-			King.new(board, :black, 8, 8)
-			expect( board.only_kings_remain? ).to be true			
+	describe "#dead_position?" do
+		context "Both sides have only their kings" do
+			it "returns true" do
+				board = Board.new
+				King.new(board, :white, 1, 1)
+				King.new(board, :black, 8, 8)
+				expect( board.dead_position? ).to be true			
+			end
 		end
 
-		it "returns false" do
-			board = Board.new
-			King.new(board, :white, 1, 1)
-			King.new(board, :black, 8, 8)
-			Pawn.new(board, :black, 7, 7)
-			expect( board.only_kings_remain? ).to be false
+		context "Both sides have their kings, one side has a pawn" do
+			it "returns false" do
+				board = Board.new
+				King.new(board, :white, 1, 1)
+				King.new(board, :black, 8, 8)
+				Pawn.new(board, :black, 7, 7)
+				expect( board.dead_position? ).to be false
+			end
+		end
+
+		context "Both sides have their kings, one side has a bishop" do
+			it "returns true" do
+				board = Board.new
+				King.new(board, :white, 1, 1)
+				King.new(board, :black, 8, 8)
+				Bishop.new(board, :black, 7, 7)
+				expect( board.dead_position? ).to be true
+			end
+		end
+
+		context "Both sides have their kings, one side has a rook" do
+			it "returns false" do
+				board = Board.new
+				King.new(board, :white, 1, 1)
+				King.new(board, :black, 8, 8)
+				Rook.new(board, :black, 7, 7)
+				expect( board.dead_position? ).to be false
+			end
+		end
+
+		context "Each side has a king and a bishop" do
+			context "Bishops are on different square colors" do
+				it "returns false" do
+					board = Board.new
+					King.new(board, :white, 1, 1)
+					King.new(board, :black, 8, 8)
+					Bishop.new(board, :black, 7, 7)
+					Bishop.new(board, :white, 1, 2)
+					expect( board.dead_position? ).to be false
+				end
+			end
+
+			context "Bishops are on same square color" do
+				it "returns true" do
+					board = Board.new
+					King.new(board, :white, 1, 1)
+					King.new(board, :black, 8, 8)
+					Bishop.new(board, :black, 7, 7)
+					Bishop.new(board, :white, 5, 3)
+					expect( board.dead_position? ).to be true
+				end
+			end
+
+			context "Additional bishops, all on same square color" do
+				it "returns true" do
+					board = Board.new
+					King.new(board, :white, 1, 1)
+					King.new(board, :black, 8, 8)
+					Bishop.new(board, :black, 7, 7)
+					Bishop.new(board, :black, 3, 1)
+					Bishop.new(board, :white, 5, 3)
+					Bishop.new(board, :white, 6, 2)
+					expect( board.dead_position? ).to be true
+				end
+			end
+		end
+
+		context "Both sides have their kings, one side has a knight" do
+			it "returns false" do
+				board = Board.new
+				King.new(board, :white, 1, 1)
+				King.new(board, :black, 8, 8)
+				Knight.new(board, :black, 7, 7)
+				expect( board.dead_position? ).to be true
+			end
+		end
+
+		context "Both sides have a king, one side has two knights" do
+			it "returns false" do
+				board = Board.new
+				King.new(board, :white, 1, 1)
+				King.new(board, :black, 8, 8)
+				Knight.new(board, :black, 7, 7)
+				Knight.new(board, :black, 2, 2)
+				expect( board.dead_position? ).to be false
+			end
 		end
 	end
 

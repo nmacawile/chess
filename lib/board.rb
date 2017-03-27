@@ -180,8 +180,29 @@ class Board
 		no_moves?(faction) && !checked?(faction)
 	end
 
-	def only_kings_remain?
-		pieces_in_play.all? { |piece| piece.class == King }
+	def dead_position?
+		king_vs_king_and_bishop_or_knight? || kings_and_bishops_of_same_color_square?
+	end
+
+	def kings_and_bishops_of_same_color_square?
+		all_kings_and_bishops? && all_bishops_on_same_square_color?
+	end
+
+	def all_kings_and_bishops?
+		pieces_in_play.all? { |piece| piece.class == King || piece.class == Bishop }
+	end
+
+	def all_bishops_on_same_square_color?
+		square = nil
+		pieces_in_play.select { |piece| piece.class == Bishop }.all? do |bishop|
+			square ||= (bishop.position[0] + bishop.position[1]).even?
+			square == (bishop.position[0] + bishop.position[1]).even?
+		end
+	end
+
+	def king_vs_king_and_bishop_or_knight?
+		pieces_in_play.all? { |piece| piece.class == King || piece.class == Bishop || piece.class == Knight	} &&
+		pieces_in_play.size <= 3
 	end
 
 	def checked?(faction)
