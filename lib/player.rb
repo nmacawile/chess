@@ -64,7 +64,15 @@ class NetworkPlayer < Player
 	def wait_for_player
 		print "Waiting for player..."
 		self.player = server.accept
-		puts "player connected"
+		puts "Player connected."
+		player.puts "Connected."
+		enter_name
+	end
+
+	def enter_name
+		player.puts "Please enter your name: "
+		player.puts "INPUT"
+		self.name = player.gets.chomp
 	end
 
 	def get_input
