@@ -75,7 +75,7 @@ class Board
 	end
 
 	def en_passant_capture(piece, x, y)
-		captures[piece.faction] << get(x, y)
+		captures[piece.faction] << get(*piece.en_passant_capture_cell)
 		place(nil, *piece.en_passant_capture_cell)
 	end
 
