@@ -8,7 +8,7 @@ The [final project](http://www.theodinproject.com/courses/ruby-programming/lesso
 
 Run `$ ruby lib/main.rb` or `$ rake play` from the game's root directory.
 
-## Playing
+## How to play
 
 ### Game mode selection
 ```
